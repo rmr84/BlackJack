@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BlackJack.MainPage">
+
+
+    <StackLayout BackgroundColor="Green" Orientation="Vertical">
+        <Label x:Name='Welcome' 
+               Text="Welcome to BlackJack!" 
+                 TextColor="White"   
+                        HorizontalOptions="Center" 
+                            VerticalOptions="Center"
+                                 FontAttributes="Bold"
+                                    FontSize="30"></Label>
+
+        <StackLayout Orientation="Vertical">
+            <Button x:Name="Start" 
+                Clicked="Start_Clicked"
+                     Text="New Game"
+                        TextColor="White"
+                             BackgroundColor="Blue"
+                                  FontAttributes="Bold"
+                                       HorizontalOptions="Center"
+                                          VerticalOptions="Center"
+                                                FontSize="30"
+                                                    BorderColor="White"
+                                                        BorderWidth="1"
+                                                            >
+            </Button>
+            <Button x:Name="ViewStats"
+                    Clicked="ViewStats_Clicked"
+                        Text="View Stats"
+                            TextColor="White"
+                                BackgroundColor="Purple"
+                                    FontAttributes="Bold"
+                                        HorizontalOptions="Center"
+                                            VerticalOptions="Center"
+                                                FontSize="30"
+                                                    BorderColor="White"
+                                                        BorderWidth="1" >
+
+            </Button>
+
+            <Button x:Name="Tutorial"
+                    Clicked="Tutorial_Clicked"
+                        Text="Tutorial"
+                            TextColor="White"
+                                BackgroundColor="Red"
+                                    FontAttributes="Bold"
+                                        HorizontalOptions="Center"
+                                            VerticalOptions="Center"
+                                                FontSize="30" 
+                                                     BorderColor="White"
+                                                        BorderWidth="1">
+
+            </Button>
+
+
+        </StackLayout>
+    </StackLayout>
+</ContentPage>
