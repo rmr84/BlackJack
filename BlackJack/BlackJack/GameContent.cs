@@ -32,6 +32,9 @@ namespace BlackJack
         {
             private int cardVal;
             private string imageSource;
+
+            public int CardVal { get => cardVal; set => cardVal = value; }
+            public string ImgSource { get => imageSource; set => imageSource = value; }
         }
         public partial class Deck
         {
@@ -45,6 +48,69 @@ namespace BlackJack
             }
             public Card[] Cards { get => cards; set => cards = value; }
             public int TotalCards { get => totalCards; set => totalCards = value; }
+
+        }
+
+        public partial class theHand
+        {
+            private LinkedList<Card> cards = new LinkedList<Card>();
+            private int handVal = 0;
+
+            public LinkedList<Card> Cards { get => cards; set => cards = value; }
+            public int HandVal { get => handVal; set => handVal = value; }
+        }
+
+        public partial class GameOperations
+        {
+            private int deckCount;
+            private int totCardCount;
+            private Deck playDeck;
+            private Deck usedDeck;
+            private theHand dealHand;
+            private theHand playerHand;
+            private Random random = new Random();
+
+            public GameOperations(int deckCount)
+            {
+                this.deckCount = deckCount;
+                totCardCount = deckCount * GameContent.CARDS_IN_DECK;
+                Setup();
+            }
+
+            private void Setup()
+            {
+                setDecks();
+
+                dealHand = new theHand();
+                playerHand = new theHand();
+            }
+
+            private void setDecks()
+            {
+                playDeck = new Deck(deckCount, totCardCount);
+                for (int i = 0; i < totCardCount; i++)
+                {
+                    playDeck.Cards[i] = new Card();
+                    playDeck.Cards[i].CardVal = GameContent.CARD_VALS[i % 13];
+                  //  playDeck.Cards[i].ImageSource = need to add card pngs here
+                }
+                usedDeck = new Deck(deckCount, 0);
+                Shuffle(playDeck);
+            }
+
+            private void Shuffle(Deck deck)
+            {
+                Card[] cards = deck.Cards;
+                int n = deck.Cards.Length;
+
+                for (int i =0; i < (n - 1); i++)
+                {
+                    int r = i + random.Next(n - i);
+                    Card temp = cards[r];
+                    cards[r] = cards[i];
+                    cards[i] = temp;
+                }
+            }
 
         }
 
