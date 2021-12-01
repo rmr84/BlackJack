@@ -16,6 +16,11 @@ namespace BlackJack
             InitializeComponent();
         }
 
+        //need to add public ICommand ClickCommand => new Command<string>((url) =>
+        //{
+        // Device.OpenUri(new System.Uri(url));
+// }); somewhere??? 
+
        
 
             private async void NewGame_Clicked(object sender, EventArgs e)

@@ -17,6 +17,15 @@
         </Label>
 
         <StackLayout Orientation="Vertical">
+            <Label x:Name='Ready' 
+               Text="Ready To Play?" 
+                 TextColor="White"   
+                        HorizontalOptions="Center" 
+                            VerticalOptions="Center"
+                                 FontAttributes="Bold"
+                                    FontSize="30">
+
+            </Label>
             <Button x:Name="NewGame" 
                 Clicked="NewGame_Clicked"
                      Text="New Game"
@@ -29,6 +38,15 @@
                                                     BorderColor="White"
                                                         BorderWidth="1"
                                                             ></Button>
+            <Label x:Name='ViewStat' 
+               Text="Returning Player?" 
+                 TextColor="White"   
+                        HorizontalOptions="Center" 
+                            VerticalOptions="Center"
+                                 FontAttributes="Bold"
+                                    FontSize="30">
+
+            </Label>
             <Button x:Name="ViewStats"
                     Clicked="ViewStats_Clicked"
                         Text="View Stats"
@@ -43,7 +61,19 @@
 
             </Button>
 
-            <Button x:Name="Tutorial"
+            
+
+            <StackLayout Orientation="Vertical">
+                <Label x:Name="new"
+                       Text="New to Blackjack?"
+                             TextColor="White"   
+                                  HorizontalOptions="Center" 
+                                       VerticalOptions="Center"
+                                           FontAttributes="Bold"
+                                                  FontSize="30">
+
+                </Label>
+                <Button x:Name="Tutorial"
                     Clicked="Tutorial_Clicked"
                         Text="Tutorial"
                             TextColor="White"
@@ -55,10 +85,30 @@
                                                      BorderColor="White"
                                                         BorderWidth="1">
 
-            </Button>
+                </Button>
+
+            </StackLayout>
             
 
 
         </StackLayout>
+        <Label HorizontalOptions="Center"
+       VerticalOptions="EndAndExpand">
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span Text="For More Blackjack Tips " TextColor="White"/>
+                    <Span Text="Click Here"
+                          TextColor="LightBlue"
+                          TextDecorations="Underline">
+                        <Span.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ClickCommand}"
+                                          CommandParameter="https://bicyclecards.com/how-to-play/blackjack/" />
+                        </Span.GestureRecognizers>
+                    </Span>
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+
+        
     </StackLayout>
 </ContentPage>
