@@ -1,33 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
+
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Text;
 
 namespace BlackJack
 {
     public partial class MainPage : ContentPage
     {
+        
         public MainPage()
         {
             InitializeComponent();
         }
 
-        private void Start_Clicked(object sender, EventArgs e)
-        {
+       
 
+            private async void NewGame_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new GamePage());
+    
         }
 
-        private void ViewStats_Clicked(object sender, EventArgs e)
+        private async void ViewStats_Clicked(object sender, EventArgs e)
         {
-
+            await Navigation.PushAsync(new StatPage());
         }
 
-        private void Tutorial_Clicked(object sender, EventArgs e)
+        private async void Tutorial_Clicked(object sender, EventArgs e)
         {
-
+            await Navigation.PushAsync(new TutorialPage());
         }
     }
 }

@@ -1,21 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BlackJack.MainPage">
+             x:Class="BlackJack.MainPage" >
 
 
-    <StackLayout BackgroundColor="Green" Orientation="Vertical">
+    <StackLayout Background="Green" Orientation="Vertical">
+        
+        
+
         <Label x:Name='Welcome' 
                Text="Welcome to BlackJack!" 
                  TextColor="White"   
                         HorizontalOptions="Center" 
                             VerticalOptions="Center"
                                  FontAttributes="Bold"
-                                    FontSize="30"></Label>
+                                    FontSize="30">
+
+        </Label>
 
         <StackLayout Orientation="Vertical">
-            <Button x:Name="Start" 
-                Clicked="Start_Clicked"
+            <Button x:Name="NewGame" 
+                Clicked="NewGame_Clicked"
                      Text="New Game"
                         TextColor="White"
                              BackgroundColor="Blue"
@@ -25,8 +30,7 @@
                                                 FontSize="30"
                                                     BorderColor="White"
                                                         BorderWidth="1"
-                                                            >
-            </Button>
+                                                            ></Button>
             <Button x:Name="ViewStats"
                     Clicked="ViewStats_Clicked"
                         Text="View Stats"
@@ -54,6 +58,7 @@
                                                         BorderWidth="1">
 
             </Button>
+            
 
 
         </StackLayout>
