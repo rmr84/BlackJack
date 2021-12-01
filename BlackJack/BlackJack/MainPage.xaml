@@ -92,23 +92,23 @@
 
 
         </StackLayout>
+
         <Label HorizontalOptions="Center"
        VerticalOptions="EndAndExpand">
             <Label.FormattedText>
                 <FormattedString>
-                    <Span Text="For More Blackjack Tips " TextColor="White"/>
+                    <Span Text="Gambling Problem? " TextColor="White"/>
                     <Span Text="Click Here"
                           TextColor="LightBlue"
                           TextDecorations="Underline">
                         <Span.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding ClickCommand}"
-                                          CommandParameter="https://bicyclecards.com/how-to-play/blackjack/" />
+                                          CommandParameter="https://responsibleplay.pa.gov/get-gambling-addiction-help/" />
                         </Span.GestureRecognizers>
                     </Span>
                 </FormattedString>
             </Label.FormattedText>
         </Label>
 
-        
     </StackLayout>
 </ContentPage>
