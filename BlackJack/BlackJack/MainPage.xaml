@@ -1,14 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             
+             x:Class="BlackJack.MainPage"
+             BackgroundImageSource="blackjack.jpg">
 
-             x:Class="BlackJack.MainPage" >
-
-    <StackLayout BackgroundColor="Green" Orientation="Vertical">
+    <StackLayout Orientation="Vertical">
+       
         
         <Label x:Name='Welcome' 
                Text="Welcome to BlackJack!" 
-                 TextColor="White"   
+                 TextColor="White"
                         HorizontalOptions="Center" 
                             VerticalOptions="Center"
                                  FontAttributes="Bold"
@@ -89,7 +91,6 @@
 
             </StackLayout>
             
-
 
         </StackLayout>
 

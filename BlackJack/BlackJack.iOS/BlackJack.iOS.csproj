@@ -133,4 +133,7 @@
       <Name>BlackJack</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\blackjack.jpg" />
+  </ItemGroup>
 </Project>
