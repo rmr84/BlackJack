@@ -1,12 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BlackJack.StatPage">
+             x:Class="BlackJack.StatPage"
+             >
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout x:Name="forList" Orientation="Vertical" BackgroundColor="Green">
+            <ListView x:Name="ListView" 
+                      BackgroundColor="Green" 
+                                HasUnevenRows="False"
+                                    ItemTapped="ListView_ItemTapped"
+                                        IsVisible="True">
+            </ListView>
+            <Button x:Name="Reset" 
+                    Text="Reset Stats"
+                        TextColor="White"
+                            BackgroundColor="Red"
+                                HorizontalOptions="CenterAndExpand"
+                                    VerticalOptions="EndAndExpand"
+                                        FontSize="Large"
+                                            FontAttributes="Bold"
+                                                Clicked="Reset_Clicked">
+                
+            </Button>
+                                        
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

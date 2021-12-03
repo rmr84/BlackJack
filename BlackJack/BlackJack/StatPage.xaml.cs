@@ -16,5 +16,15 @@ namespace BlackJack
         {
             InitializeComponent();
         }
+
+        private void Reset_Clicked(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            await Navigation.PushAsync(new EditUser());
+        }
     }
 }
