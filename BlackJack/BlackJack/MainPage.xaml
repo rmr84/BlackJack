@@ -17,6 +17,16 @@
                                     FontSize="30">
 
         </Label>
+        <Entry x:Name="userID" 
+                       Placeholder="Enter userID here"
+                            PlaceholderColor="White"
+                             TextColor="White"
+                                   HorizontalOptions="Center" 
+                                      VerticalOptions="Center"
+                                          FontAttributes="Bold"
+                                              FontSize="30">
+
+        </Entry>
 
         <StackLayout Orientation="Vertical">
             <Label x:Name='Ready' 
@@ -88,6 +98,8 @@
                                                         BorderWidth="1">
 
                 </Button>
+                
+                            
 
             </StackLayout>
             

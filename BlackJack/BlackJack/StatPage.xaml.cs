@@ -12,9 +12,16 @@ namespace BlackJack
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class StatPage : ContentPage
     {
-        public StatPage()
+        private Manager manager = Manager.GetInstance();
+        private bool user = true;
+       // private int index;
+        public StatPage(bool user)
         {
             InitializeComponent();
+            this.user = user;
+            
+            var var1 = manager.GetObsList();
+            //WelcomeUser.Text = var1.userName; // fix this 
         }
 
         private void Reset_Clicked(object sender, EventArgs e)

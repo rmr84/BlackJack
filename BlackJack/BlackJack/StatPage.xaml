@@ -1,10 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BlackJack.StatPage"
-             >
+             x:Class="BlackJack.StatPage">
+    
     <ContentPage.Content>
         <StackLayout x:Name="forList" Orientation="Vertical" BackgroundColor="Green">
+            <Label x:Name="WelcomeUser"
+                   >
+                
+            </Label>
             <ListView x:Name="ListView" 
                       BackgroundColor="Green" 
                                 HasUnevenRows="False"
