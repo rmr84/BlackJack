@@ -23,8 +23,6 @@ namespace BlackJack
         }
 
        
-        
-
             private async void NewGame_Clicked(object sender, EventArgs e)
             {
             var check = CheckInput();
@@ -34,7 +32,6 @@ namespace BlackJack
                 return;
             }
 
-           
                 await Navigation.PushAsync(new GamePage());
             }
             

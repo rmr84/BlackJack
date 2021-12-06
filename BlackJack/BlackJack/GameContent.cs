@@ -98,6 +98,49 @@ namespace BlackJack
                 Shuffle(playDeck);
             }
 
+            private void CalcHandVal(theHand hand)
+            {
+                int numOfAces = 0;
+                int val = 0;
+
+                foreach (Card card in theHand.Cards)
+                {
+                    if (card.CardVal == 11)
+                    {
+                        numOfAces++;
+
+                    }
+                    else
+                    {
+                        val += card.CardVal;
+                    }
+
+
+                    if (val > 21 && numOfAces > 0)
+                    {
+                        numOfAces--;
+                        val -= 10;
+                    }
+                }
+                hand.HandVal = val;
+            }
+
+            private void CreateDecks()
+            {
+                playDeck = new Deck(deckCount, totCardCount);
+                for (int i = 0; i < totCardCount; i++)
+                {
+                    playDeck.Cards[i] = new Card();
+                    playDeck.Cards[i].CardVal = GameContent.CARD_VALS[i % 13];
+                    // card images go here
+
+                }
+                usedDeck = new Deck(deckCount, 0);
+                Shuffle(playDeck);
+
+            }
+
+
             private void Shuffle(Deck deck)
             {
                 Card[] cards = deck.Cards;
@@ -113,7 +156,5 @@ namespace BlackJack
             }
 
         }
-
-
     }
 }
