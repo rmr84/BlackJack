@@ -1,6 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+
 
 namespace BlackJack
 {
@@ -98,6 +104,8 @@ namespace BlackJack
                 Shuffle(playDeck);
             }
 
+            
+
             private void CalcHandVal(theHand hand)
             {
                 var newHand = new theHand();
@@ -141,7 +149,6 @@ namespace BlackJack
                 Shuffle(playDeck);
 
             }
-
 
             private void Shuffle(Deck deck)
             {

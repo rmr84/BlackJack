@@ -67,9 +67,4 @@ namespace BlackJack
             }
         }
     }
-
-
-   
-
-
 }
