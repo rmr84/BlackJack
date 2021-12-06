@@ -100,10 +100,12 @@ namespace BlackJack
 
             private void CalcHandVal(theHand hand)
             {
+                var newHand = new theHand();
+
                 int numOfAces = 0;
                 int val = 0;
 
-                foreach (Card card in theHand.Cards)
+                foreach (Card card in newHand.Cards)
                 {
                     if (card.CardVal == 11)
                     {
