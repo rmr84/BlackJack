@@ -22,12 +22,12 @@
             </Grid.RowDefinitions>
 
             <!-- Dealer block -->
+            
             <Label Grid.Row="0" Grid.Column="0" Text="Dealer" TextColor="Black" Margin="5" FontFamily="Arial Black"/>
             <StackLayout Grid.Row="0" Grid.Column="4" Orientation="Horizontal" HorizontalOptions="End"  Margin="5">
                 <Label Text="Total: " TextColor="Black" FontFamily="Arial Black"/>
                 <Label x:Name="DealerTotal" TextColor="Black" FontFamily="Arial Black"/>
             </StackLayout>
-
 
             <!-- Player block -->
             <Label Grid.Row="3" Grid.Column="0" Text="Player Hand" TextColor="Black" Margin="5,25,5,5" FontFamily="Arial Black"/>
@@ -58,10 +58,8 @@
             <!-- Play/Back buttons -->
             <StackLayout Grid.Column="0"  Grid.Row="6" Orientation="Horizontal" VerticalOptions="EndAndExpand">
                 <Button x:Name="PlayButton"  Style="{DynamicResource PlayButton_Style}" Clicked="PlayButton_Clicked"  IsEnabled="False"/>
-               
-            </StackLayout>
 
-           
+            </StackLayout>
 
             <!-- Hit/Stand buttons -->
             <StackLayout Grid.Column="4"  Grid.Row="6" Orientation="Horizontal" VerticalOptions="EndAndExpand" HorizontalOptions="StartAndExpand">

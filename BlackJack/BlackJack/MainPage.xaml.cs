@@ -11,9 +11,12 @@ namespace BlackJack
     public partial class MainPage : ContentPage
     {
         private Manager manager = Manager.GetInstance();
+        private int deckC;
         public MainPage()
         {
+            
             InitializeComponent();
+
         }
 
         protected override async void OnAppearing()
@@ -22,7 +25,6 @@ namespace BlackJack
 
         }
 
-       
             private async void NewGame_Clicked(object sender, EventArgs e)
             {
             var check = CheckInput();
@@ -35,7 +37,6 @@ namespace BlackJack
                 await Navigation.PushAsync(new GamePage());
             }
             
-
         private async void ViewStats_Clicked(object sender, EventArgs e)
         {
             var check = CheckInput();

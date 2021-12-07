@@ -5,8 +5,7 @@
     
     <ContentPage.Content>
         <StackLayout x:Name="forList" Orientation="Vertical" BackgroundColor="Green">
-            <Label x:Name="WelcomeUser"
-                   >
+            <Label x:Name="WelcomeUser">
                 
             </Label>
             <ListView x:Name="ListView" 
