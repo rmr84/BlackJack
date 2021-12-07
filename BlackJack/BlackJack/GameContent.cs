@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 
 
+
 namespace BlackJack
 {
     public static class GameContent
@@ -91,6 +92,20 @@ namespace BlackJack
                 playerHand = new theHand();
             }
 
+            public async Task Stand()
+            {
+                while (dealHand.HandVal < 17)
+                {
+                    await Task.Delay(GameContent.CARD_DRAW_DELAY);
+                    if (playDeck.TotalCards == 0)
+                    {
+                        RecombineDeck();
+                        //DrawCard(dealHand, )
+                    }
+                    
+                }
+            }
+
             private void setDecks()
             {
                 playDeck = new Deck(deckCount, totCardCount);
@@ -164,6 +179,36 @@ namespace BlackJack
                 }
             }
 
+            private void RecombineDeck()
+            {
+                while (usedDeck.TotalCards > 0)
+                {
+                    playDeck.Cards[playDeck.TotalCards] = usedDeck.Cards[usedDeck.TotalCards - 1];
+                    usedDeck.Cards[usedDeck.TotalCards - 1] = null;
+                    usedDeck.TotalCards--;
+                    playDeck.TotalCards++;
+                }
+                Shuffle(playDeck);
+            }
+
+            private void DrawCard(theHand hand, Boolean hide)
+            {
+                hand.Cards.AddLast(playDeck.Cards[playDeck.TotalCards - 1]);
+                playDeck.Cards[playDeck.TotalCards - 1] = null;
+                playDeck.TotalCards--;
+
+                CalcHandVal(hand);
+
+                // Image img = new Image();
+
+                if (hide)
+                {
+                    //img.source = new image(new uri("/foldername/cardnum.png"
+                }
+            }
+
         }
     }
+
+
 }
