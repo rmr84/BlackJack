@@ -5,10 +5,10 @@
     <ContentPage.Content>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -28,9 +28,8 @@
                 <Label Text="Total: " TextColor="Black" FontFamily="Arial Black"/>
                 <Label x:Name="DealerTotal" TextColor="Black" FontFamily="Arial Black"/>
             </StackLayout>
-            <ScrollView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Background="#AA333333" Height="220" IsVisible="false">
+            <ScrollView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Background="#AA333333"  IsVisible="false">
                 <FlexLayout x:Name="DealerView" HorizontalOptions="Center" VerticalOptions="Start">
-
                 </FlexLayout>
             </ScrollView>
 
@@ -40,9 +39,8 @@
                 <Label Text="Total: " TextColor="Black" FontFamily="Arial Black"/>
                 <Label x:Name="PlayerTotal"  TextColor="Black" FontFamily="Arial Black"/>
             </StackLayout>
-            <ScrollView Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5" Background="#AA333333" Height="220" IsVisible="false">
+            <ScrollView Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5" Background="#AA333333" IsVisible="false">
                 <FlexLayout x:Name="PlayerView" HorizontalOptions="Center" VerticalOptions="Start">
-                   
                 </FlexLayout>
             </ScrollView>
 
@@ -65,16 +63,16 @@
                 </StackLayout>
             </StackLayout>
 
-            <!-- Play/Back buttons -->
+            <!-- Playbuttons -->
             <StackLayout Grid.Column="0"  Grid.Row="6" Orientation="Horizontal" VerticalOptions="EndAndExpand">
-                <Button x:Name="PlayButton"  Style="{DynamicResource PlayButton_Style}" Clicked="PlayButton_Clicked"  IsEnabled="False"/>
+                <Button x:Name="PlayButton" Text="Play" Clicked="PlayButton_Clicked"  IsEnabled="True"/>
 
             </StackLayout>
 
             <!-- Hit/Stand buttons -->
             <StackLayout Grid.Column="4"  Grid.Row="6" Orientation="Horizontal" VerticalOptions="EndAndExpand" HorizontalOptions="StartAndExpand">
-                <Button x:Name="HitButton" Style="{DynamicResource HitStandButton_Style}" Clicked="HitButton_Clicked" IsEnabled="False"/>
-                <Button x:Name="StandButton" Style="{DynamicResource HitStandButton_Style}" Clicked="StandButton_Clicked" IsEnabled="False"/>
+                <Button x:Name="HitButton" Text="Hit" Clicked="HitButton_Clicked" IsEnabled="False"/>
+                <Button x:Name="StandButton" Text="Stand" Clicked="StandButton_Clicked" IsEnabled="False"/>
             </StackLayout>
 
             <!-- NOTIFICATIONS -->

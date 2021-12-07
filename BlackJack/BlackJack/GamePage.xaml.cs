@@ -13,7 +13,7 @@ namespace BlackJack
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class GamePage : ContentPage
     {
-        private GameConstants.GameOperations instance;
+        private GameOperations instance;
         private StackLayout[] notifications;
         private FlexLayout[] views;
         private Label[] totals;
@@ -24,7 +24,7 @@ namespace BlackJack
         public GamePage()
         {
             InitializeComponent();
-
+            instance = new GameOperations(deckCount);
             views = new FlexLayout[] { DealerView, PlayerView };
             totals = new Label[] { DealerTotal, PlayerTotal, Win, Lost, Push };
             notifications = new StackLayout[] { DealersTurnNotification, PushNotification, BustNotification, LostNotification, DealerBlackjackNotification, WinNotification, BlackjackNotification };
@@ -44,7 +44,8 @@ namespace BlackJack
         private async void PlayButton_Clicked(object sender, EventArgs e)
         {
             PlayButton.IsEnabled = false;
-            PlayButton.Text = "Play";
+            HitButton.IsEnabled = true;
+            StandButton.IsEnabled = true;
             await instance.Play(views, totals, notifications, buttons);
 
         }

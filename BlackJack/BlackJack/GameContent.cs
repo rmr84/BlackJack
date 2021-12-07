@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -34,17 +33,15 @@ namespace BlackJack
         public const int WIN_NOT = 5;
         public const int BLACKJACK_NOT = 6;
         public static readonly int[] CARD_VALS = { 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10 };
-        public static int losses = 0;
-        public static int wins = 0;
-        public static int pushes = 0;
-        public static int busts = 0;
+        
+    }
         public partial class Card
         {
             private int cardVal;
             private string imageSource;
 
             public int CardVal { get => cardVal; set => cardVal = value; }
-            public string ImgSource { get => imageSource; set => imageSource = value; }
+            public string ImageSource { get => imageSource; set => imageSource = value; }
         }
         public partial class Deck
         {
@@ -72,7 +69,11 @@ namespace BlackJack
 
         public partial class GameOperations
         {
-            private int deckCount;
+        public static int losses = 0;
+        public static int wins = 0;
+        public static int pushes = 0;
+        public static int busts = 0;
+        private int deckCount;
             private int totCardCount;
             private Deck playDeck;
             private Deck usedDeck;
@@ -83,7 +84,6 @@ namespace BlackJack
 
             public GameOperations(int deckCount)
             {
-                this.deckCount = deckCount;
                 totCardCount = deckCount * GameConstants.CARDS_IN_DECK;
                 Setup();
             }
@@ -176,7 +176,7 @@ namespace BlackJack
                 {
                     playDeck.Cards[i] = new Card();
                     playDeck.Cards[i].CardVal = GameConstants.CARD_VALS[i % 13];
-                  //  playDeck.Cards[i].ImageSource = need to add card pngs here
+                    playDeck.Cards[i].ImageSource = "/Cards/card" + ((i % 52) + 1) + ".png";
                 }
                 usedDeck = new Deck(deckCount, 0);
                 Shuffle(playDeck);
@@ -243,18 +243,24 @@ namespace BlackJack
 
             private void DrawCard(FlexLayout views, theHand hand, Boolean hide)
             {
+
                 hand.Cards.AddLast(playDeck.Cards[playDeck.TotalCards - 1]);
                 playDeck.Cards[playDeck.TotalCards - 1] = null;
                 playDeck.TotalCards--;
 
                 CalcHandVal(hand);
 
-                // Image img = new Image();
+                 Image img = new Image();
 
                 if (hide)
                 {
-                    //img.source = new image(new uri("/foldername/cardnum.png"
+                    img.Source = "/Cards/Back Side.jpg";
+                } else
+                {
+                    img.Source = hand.Cards.Last.Value.ImageSource;
                 }
+                views.Children.Add(img);
+
             }
 
             public async Task Play(FlexLayout[] views, Label[] totals, StackLayout[] notifications, Button[] buttons)
@@ -350,8 +356,11 @@ namespace BlackJack
 
             private void ShowCard(FlexLayout views, Label dealerTot)
             {
-                //Image img = new image();
-                //img.source - new ........
+                views.Children.RemoveAt(views.Children.Count - 1);
+                Image img = new Image();
+                img.Source = dealHand.Cards.Last.Value.ImageSource;
+                img.Margin = new Thickness(5);
+                views.Children.Add(img);
                 dealerTot.Text = dealHand.HandVal.ToString();
             }
 
@@ -371,5 +380,3 @@ namespace BlackJack
         }
     }
 
-
-}
