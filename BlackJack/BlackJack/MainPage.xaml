@@ -115,8 +115,7 @@
                           TextColor="LightBlue"
                           TextDecorations="Underline">
                         <Span.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ClickCommand}"
-                                          CommandParameter="https://responsibleplay.pa.gov/get-gambling-addiction-help/" />
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
                         </Span.GestureRecognizers>
                     </Span>
                 </FormattedString>

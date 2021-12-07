@@ -28,6 +28,11 @@
                 <Label Text="Total: " TextColor="Black" FontFamily="Arial Black"/>
                 <Label x:Name="DealerTotal" TextColor="Black" FontFamily="Arial Black"/>
             </StackLayout>
+            <ScrollView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Background="#AA333333" Height="220" IsVisible="false">
+                <FlexLayout x:Name="DealerView" HorizontalOptions="Center" VerticalOptions="Start">
+
+                </FlexLayout>
+            </ScrollView>
 
             <!-- Player block -->
             <Label Grid.Row="3" Grid.Column="0" Text="Player Hand" TextColor="Black" Margin="5,25,5,5" FontFamily="Arial Black"/>
@@ -35,23 +40,28 @@
                 <Label Text="Total: " TextColor="Black" FontFamily="Arial Black"/>
                 <Label x:Name="PlayerTotal"  TextColor="Black" FontFamily="Arial Black"/>
             </StackLayout>
+            <ScrollView Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5" Background="#AA333333" Height="220" IsVisible="false">
+                <FlexLayout x:Name="PlayerView" HorizontalOptions="Center" VerticalOptions="Start">
+                   
+                </FlexLayout>
+            </ScrollView>
 
             <!-- Win/Lost/Push -->
             <StackLayout Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="5" Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center" Background="#AA111111" Margin="10">
                 <!-- Win -->
                 <StackLayout Orientation="Horizontal" Margin="40,5">
                     <Label Text="Win: " TextColor="White" FontFamily="Arial Black"/>
-                    <Label x:Name="FreestyleWin" Text="0" TextColor="#26EB0C" FontFamily="Arial Black"/>
+                    <Label x:Name="Win" Text="0" TextColor="#26EB0C" FontFamily="Arial Black"/>
                 </StackLayout>
                 <!-- Lost -->
                 <StackLayout Orientation="Horizontal" Margin="5">
                     <Label Text="Lost: " TextColor="White" FontFamily="Arial Black"/>
-                    <Label x:Name="FreestyleLost" Text="0" TextColor="#E31B1B" FontFamily="Arial Black"/>
+                    <Label x:Name="Lost" Text="0" TextColor="#E31B1B" FontFamily="Arial Black"/>
                 </StackLayout>
                 <!-- Push -->
                 <StackLayout Orientation="Horizontal" Margin="40,5">
                     <Label Text="Push: " TextColor="White" FontFamily="Arial Black"/>
-                    <Label x:Name="FreestylePush" Text="0" TextColor="#110DDB" FontFamily="Arial Black"/>
+                    <Label x:Name="Push" Text="0" TextColor="#110DDB" FontFamily="Arial Black"/>
                 </StackLayout>
             </StackLayout>
 

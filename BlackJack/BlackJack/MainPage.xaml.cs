@@ -5,13 +5,14 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.Essentials;
 
 namespace BlackJack
 {
     public partial class MainPage : ContentPage
     {
         private Manager manager = Manager.GetInstance();
-        private int deckC;
+        
         public MainPage()
         {
             
@@ -66,6 +67,11 @@ namespace BlackJack
             {
                 return b.ToString();
             }
+        }
+
+        private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            await Browser.OpenAsync(new Uri("https://responsibleplay.pa.gov/get-gambling-addiction-help/"));
         }
     }
 }
