@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BlackJack.GamePage">
+             x:Class="BlackJack.GamePage"
+             BackgroundImageSource="gameback.jpg"
+             Title="Press Play To Start!">
     <ContentPage.Content>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -22,46 +24,30 @@
             </Grid.RowDefinitions>
 
             <!-- Dealer block -->
-            
-            <Label Grid.Row="0" Grid.Column="0" Text="Dealer" TextColor="Black" Margin="5" FontFamily="Arial Black"/>
+
+            <Label Grid.Row="0" Grid.Column="0" Text="Dealer Hand" FontSize="16" FontAttributes="Bold" TextColor="White" Margin="5" FontFamily="Arial Black"/>
             <StackLayout Grid.Row="0" Grid.Column="4" Orientation="Horizontal" HorizontalOptions="End"  Margin="5">
-                <Label Text="Total: " TextColor="Black" FontFamily="Arial Black"/>
-                <Label x:Name="DealerTotal" TextColor="Black" FontFamily="Arial Black"/>
+                <Label Text="Total: " FontSize="16" FontAttributes="Bold" TextColor="White" FontFamily="Arial Black"/>
+                <Label x:Name="DealerTotal" FontSize="16" FontAttributes="Bold" TextColor="white" FontFamily="Arial Black"/>
             </StackLayout>
-            <ScrollView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Background="#AA333333"  IsVisible="false">
+            <ScrollView  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Background="#AA333333" HeightRequest="220"  IsVisible="true">
                 <FlexLayout x:Name="DealerView" HorizontalOptions="Center" VerticalOptions="Start">
+                    <Image Source="/Cards/card1.png" />
                 </FlexLayout>
             </ScrollView>
 
             <!-- Player block -->
-            <Label Grid.Row="3" Grid.Column="0" Text="Player Hand" TextColor="Black" Margin="5,25,5,5" FontFamily="Arial Black"/>
+            <Label Grid.Row="3" Grid.Column="0" Text="Player Hand" FontSize="16" FontAttributes="Bold" TextColor="White" Margin="5,25,5,5" FontFamily="Arial Black"/>
             <StackLayout Grid.Row="3" Grid.Column="4" Orientation="Horizontal" HorizontalOptions="End" Margin="5,25,5,5">
-                <Label Text="Total: " TextColor="Black" FontFamily="Arial Black"/>
-                <Label x:Name="PlayerTotal"  TextColor="Black" FontFamily="Arial Black"/>
+                <Label Text="Total: " FontSize="16" FontAttributes="Bold" TextColor="white" FontFamily="Arial Black"/>
+                <Label x:Name="PlayerTotal" FontSize="16" FontAttributes="Bold" TextColor="white" FontFamily="Arial Black"/>
             </StackLayout>
-            <ScrollView Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5" Background="#AA333333" IsVisible="false">
+            <ScrollView  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5" Background="#AA333333" HeightRequest="220" IsVisible="true">
                 <FlexLayout x:Name="PlayerView" HorizontalOptions="Center" VerticalOptions="Start">
                 </FlexLayout>
             </ScrollView>
 
-            <!-- Win/Lost/Push -->
-            <StackLayout Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="5" Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center" Background="#AA111111" Margin="10">
-                <!-- Win -->
-                <StackLayout Orientation="Horizontal" Margin="40,5">
-                    <Label Text="Win: " TextColor="White" FontFamily="Arial Black"/>
-                    <Label x:Name="Win" Text="0" TextColor="#26EB0C" FontFamily="Arial Black"/>
-                </StackLayout>
-                <!-- Lost -->
-                <StackLayout Orientation="Horizontal" Margin="5">
-                    <Label Text="Lost: " TextColor="White" FontFamily="Arial Black"/>
-                    <Label x:Name="Lost" Text="0" TextColor="#E31B1B" FontFamily="Arial Black"/>
-                </StackLayout>
-                <!-- Push -->
-                <StackLayout Orientation="Horizontal" Margin="40,5">
-                    <Label Text="Push: " TextColor="White" FontFamily="Arial Black"/>
-                    <Label x:Name="Push" Text="0" TextColor="#110DDB" FontFamily="Arial Black"/>
-                </StackLayout>
-            </StackLayout>
+            
 
             <!-- Playbuttons -->
             <StackLayout Grid.Column="0"  Grid.Row="6" Orientation="Horizontal" VerticalOptions="EndAndExpand">

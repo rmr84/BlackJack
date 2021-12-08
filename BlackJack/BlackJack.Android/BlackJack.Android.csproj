@@ -83,7 +83,9 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\gameback.jpg" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BlackJack\BlackJack.csproj">
       <Project>{B70B7B8E-9098-468A-9838-CC2B4C56ECE1}</Project>

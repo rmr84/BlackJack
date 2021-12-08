@@ -13,6 +13,7 @@ namespace BlackJack
     {
         private Manager manager = Manager.GetInstance();
         
+        
         public MainPage()
         {
             

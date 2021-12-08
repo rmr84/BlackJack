@@ -1,382 +1,425 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Xamarin.Forms;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using Xamarin.Forms;
+
 
 namespace BlackJack
 {
-    public static class GameConstants
+    public static class Constants
     {
-        public const int CARDS_IN_DECK = 52;
+        public static readonly int[] CARDS = { 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10 };
+        public const int CARD_DECK = 52;
         public const int STARTING_CARDS = 4;
-        public const int CARD_DRAW_DELAY = 250;
-        public const int POPUP_DELAY = 2500;
-        public const int TIMEOUT_DELAY = 350;
+        public const int DRAW_DELAY = 250;
+        public const int POPUP_DELAY = 4000;
+        public const int TIMEOUT_DELAY = 300;
         public const int DEALER = 0;
         public const int PLAYER = 1;
         public const int WIN = 2;
-        public const int LOSE = 3;
+        public const int LOST = 3;
         public const int PUSH = 4;
-        public const int PLAY = 0;
-        public const int BACK = 1;
-        public const int HIT = 2;
-        public const int STAND = 3;
-        public const int DEALERS_TURN = 0;
-        public const int PUSH_NOT = 1;
-        public const int BUST_NOT = 2;
-        public const int LOSE_NOT = 3;
-        public const int DEALER_BLACKJACK_NOT = 4;
-        public const int WIN_NOT = 5;
-        public const int BLACKJACK_NOT = 6;
-        public static readonly int[] CARD_VALS = { 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10 };
-        
+        public const int PLAY_BUTTON = 0;
+        public const int BACK_BUTTON = 1;
+        public const int HIT_BUTTON = 2;
+        public const int STAND_BUTTON = 3;
+        public const int DEALER_TURN_NOTIF = 0;
+        public const int PUSH_NOTIF = 1;
+        public const int BUST_NOTIF = 2;
+        public const int LOST_NOTIF = 3;
+        public const int DEALER_BLACKJACK_NOTIF = 4;
+        public const int WIN_NOTIF = 5;
+        public const int BLACKJACK_NOTIF = 6;
+      
     }
-        public partial class Card
-        {
-            private int cardVal;
-            private string imageSource;
 
-            public int CardVal { get => cardVal; set => cardVal = value; }
-            public string ImageSource { get => imageSource; set => imageSource = value; }
-        }
-        public partial class Deck
+    public partial class Card
+    {
+        private int cardValue;
+        private string imageSource;
+
+        public int CardValue { get => cardValue; set => cardValue = value; }
+        public string ImageSource { get => imageSource; set => imageSource = value; }
+    }
+
+    public partial class Deck
+    {
+        private Card[] cards;
+        private int totalCards;
+
+        public Deck(int startingAmount)
         {
-            private Card[] cards;
-            private int totalCards;
             
-            public Deck(int deckCount, int startAmount)
-            {
-                cards = new Card[deckCount * GameConstants.CARDS_IN_DECK];
-                totalCards = startAmount;
-            }
-            public Card[] Cards { get => cards; set => cards = value; }
-            public int TotalCards { get => totalCards; set => totalCards = value; }
-
+            cards = new Card[Constants.CARD_DECK];
+            totalCards = startingAmount;
         }
 
-        public partial class theHand
-        {
-            private LinkedList<Card> cards = new LinkedList<Card>();
-            private int handVal = 0;
+        public Card[] Cards { get => cards; set => cards = value; }
+        public int TotalCards { get => totalCards; set => totalCards = value; }
+    }
 
-            public LinkedList<Card> Cards { get => cards; set => cards = value; }
-            public int HandVal { get => handVal; set => handVal = value; }
+    public partial class Hand
+    {
+        private LinkedList<Card> cards = new LinkedList<Card>();
+        private int handValue = 0;
+
+        public LinkedList<Card> Cards { get => cards; set => cards = value; }
+        public int HandValue { get => handValue; set => handValue = value; }
+    }
+
+    public partial class Game
+  
+    {
+        private int overallCardCount;
+        private Deck playDeck;
+        private Deck usedDeck;
+        private Hand dealerHand;
+        private Hand playerHand;
+        public int winOnStand = 0;
+        public int loseOnStand = 0;
+        public int winOnHit = 0;
+        public int loseOnHit = 0;
+        public int wins = 0;
+        public int losses = 0;
+        public int winonbj = 0;
+        public int busts = 0;
+        public int pushes = 0;
+
+        private Random random = new Random();
+
+        
+        public Game()
+        {
+
+            overallCardCount = Constants.CARD_DECK;
+            Setup();
         }
 
-        public partial class GameOperations
+
+        private void Setup()
         {
-        public static int losses = 0;
-        public static int wins = 0;
-        public static int pushes = 0;
-        public static int busts = 0;
-        private int deckCount;
-            private int totCardCount;
-            private Deck playDeck;
-            private Deck usedDeck;
-            private theHand dealHand;
-            private theHand playerHand;
-            private Random random = new Random();
+            CreateDecks();
+
+            dealerHand = new Hand();
+            playerHand = new Hand();
+        }
+
+        
+        public async Task Stand(FlexLayout[] views, Label[] totals, StackLayout[] notifications, Button[] buttons)
+        {
+            buttons[Constants.HIT_BUTTON].IsEnabled = false;
+            buttons[Constants.STAND_BUTTON].IsEnabled = false;
+
+            await Task.Delay(Constants.TIMEOUT_DELAY);
+
+            ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
+
             
-
-            public GameOperations(int deckCount)
+            while (dealerHand.HandValue < 17)
             {
-                totCardCount = deckCount * GameConstants.CARDS_IN_DECK;
-                Setup();
-            }
+                await Task.Delay(Constants.DRAW_DELAY);
 
-            private void Setup()
-            {
-                setDecks();
-
-                dealHand = new theHand();
-                playerHand = new theHand();
-            }
-
-            public async Task Stand(FlexLayout[] views, Label[] totals, StackLayout[] notifications, Button[] buttons)
-            {
-                buttons[GameConstants.HIT].IsEnabled = false;
-                buttons[GameConstants.STAND].IsEnabled = false;
-                await Task.Delay(GameConstants.TIMEOUT_DELAY);
-                ShowCard(views[GameConstants.DEALER], totals[GameConstants.DEALER]);
-
-
-                while (dealHand.HandVal < 17)
-                {
-                    await Task.Delay(GameConstants.CARD_DRAW_DELAY);
-                    if (playDeck.TotalCards == 0)
-                    {
-                        RecombineDeck();
-                    }
-                        DrawCard(views[GameConstants.DEALER],  dealHand,  false);
-                        totals[GameConstants.DEALER].Text = dealHand.HandVal.ToString();
-                    
-                    
-                }
-                await Task.Delay(GameConstants.TIMEOUT_DELAY);
-
-                if (dealHand.HandVal > 21)
-                {
-                    await ShowNotif(notifications, GameConstants.WIN_NOT);
-                    wins++;
-                    totals[GameConstants.WIN].Text = wins.ToString();
-                } else if (dealHand.HandVal == playerHand.HandVal)
-                {
-                    await ShowNotif(notifications, GameConstants.PUSH_NOT);
-                    pushes++;
-                    totals[GameConstants.PUSH].Text = pushes.ToString();
-                } else if (dealHand.HandVal < playerHand.HandVal)
-                {
-                    await ShowNotif(notifications, GameConstants.WIN_NOT);
-                    wins++;
-                    totals[GameConstants.WIN].Text = wins.ToString();
-                } else 
-                {
-                    await ShowNotif(notifications, GameConstants.LOSE_NOT);
-                    losses++;
-                    totals[GameConstants.LOSE].Text = losses.ToString();
-
-                }
-                PlayAgain(buttons);
-            }
-
-            public async Task Hit(FlexLayout[] views, Label[] totals, StackLayout[] notifications, Button[] buttons)
-            {
                 if (playDeck.TotalCards == 0)
-                {
-                    RecombineDeck();
-                }
+                    RecombineDecks();
 
-                DrawCard(views[GameConstants.PLAYER], playerHand,  false);
-                totals[GameConstants.PLAYER].Text = playerHand.HandVal.ToString();
-
-                if (playerHand.HandVal > 21)
-                {
-                    buttons[GameConstants.HIT].IsEnabled = false;
-                    buttons[GameConstants.STAND].IsEnabled = false;
-                    await ShowNotif(notifications, GameConstants.BUST_NOT);
-                    losses++;
-                    busts++;
-                    totals[GameConstants.LOSE].Text = losses.ToString();
-
-                    ShowCard(views[GameConstants.PLAYER], totals[GameConstants.DEALER]);
-
-                    PlayAgain(buttons);
-                }
-
+                
+                DrawCard(dealerHand, views[Constants.DEALER], false);
+                totals[Constants.DEALER].Text = dealerHand.HandValue.ToString();
             }
 
-            private void setDecks()
-            {
-                playDeck = new Deck(deckCount, totCardCount);
-                for (int i = 0; i < totCardCount; i++)
-                {
-                    playDeck.Cards[i] = new Card();
-                    playDeck.Cards[i].CardVal = GameConstants.CARD_VALS[i % 13];
-                    playDeck.Cards[i].ImageSource = "/Cards/card" + ((i % 52) + 1) + ".png";
-                }
-                usedDeck = new Deck(deckCount, 0);
-                Shuffle(playDeck);
-            }
+            await Task.Delay(Constants.TIMEOUT_DELAY);
 
             
-
-            private void CalcHandVal(theHand hand)
+            if (dealerHand.HandValue > 21)
             {
-                var newHand = new theHand();
-
-                int numOfAces = 0;
-                int val = 0;
-
-                foreach (Card card in newHand.Cards)
-                {
-                    if (card.CardVal == 11)
-                    {
-                        numOfAces++;
-
-                    }
-                    else
-                    {
-                        val += card.CardVal;
-                    }
-
-
-                    if (val > 21 && numOfAces > 0)
-                    {
-                        numOfAces--;
-                        val -= 10;
-                    }
-                }
-                hand.HandVal = val;
+                await DisplayNotification(notifications, Constants.WIN_NOTIF);
+                winOnStand++;
+                wins++;
+                totals[Constants.WIN].Text = wins.ToString();
             }
+            
+            else if (dealerHand.HandValue == playerHand.HandValue)
+            {
+                await DisplayNotification(notifications, Constants.PUSH_NOTIF);
+                pushes++;
+                totals[Constants.PUSH].Text = pushes.ToString();
+            }
+            
+            else if (dealerHand.HandValue < playerHand.HandValue)
+            {
+                await DisplayNotification(notifications, Constants.WIN_NOTIF);
+                wins++;
+                winOnStand++;
+                totals[Constants.WIN].Text = wins.ToString();
+            }
+            
+            else
+            {
+                await DisplayNotification(notifications, Constants.LOST_NOTIF);
+                losses++;
+                loseOnStand++;
+                totals[Constants.LOST].Text = losses.ToString();
+            }
+
+            PlayAgain(buttons);
+        }
+
+        
+        public async Task Hit(FlexLayout[] views, Label[] totals, StackLayout[] notifications, Button[] buttons)
+        {
+            if (playDeck.TotalCards == 0)
+                RecombineDecks();
 
            
+            DrawCard(playerHand, views[Constants.PLAYER], false);
+            totals[Constants.PLAYER].Text = playerHand.HandValue.ToString();
 
-            private void Shuffle(Deck deck)
+            // Player busted.
+            if (playerHand.HandValue > 21)
             {
-                Card[] cards = deck.Cards;
-                int n = deck.Cards.Length;
+                buttons[Constants.HIT_BUTTON].IsEnabled = false;
+                buttons[Constants.STAND_BUTTON].IsEnabled = false;
 
-                for (int i =0; i < (n - 1); i++)
-                {
-                    int j = i + random.Next(n - i);
-                    Card temp = cards[j];
-                    cards[j] = cards[i];
-                    cards[i] = temp;
-                }
+                await DisplayNotification(notifications, Constants.BUST_NOTIF);
+                busts++;
+                loseOnHit++;
+                losses++;
+                totals[Constants.LOST].Text =losses.ToString();
+
+                ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
+
+                PlayAgain(buttons);
+            }
+        }
+
+        
+        private void DrawCard(Hand hand, FlexLayout panel, Boolean hideCard)
+        {
+            
+            hand.Cards.AddLast(playDeck.Cards[playDeck.TotalCards - 1]);
+            playDeck.Cards[playDeck.TotalCards - 1] = null;
+            playDeck.TotalCards--;
+
+            CalculateHandValue(hand);
+
+            Image img = new Image();
+
+            if (hideCard)
+                img.Source = "/Cards/Back Side.jpg";
+            else
+                img.Source = hand.Cards.Last.Value.ImageSource;
+
+            img.HeightRequest = 194;
+            img.Margin = new Thickness(5);
+            panel.Children.Add(img);
+        }
+
+        
+        public async Task Play(FlexLayout[] views, Label[] totals, StackLayout[] notifications, Button[] buttons)
+        {
+           
+            if (playerHand.Cards.Count > 0 || dealerHand.Cards.Count > 0)
+            {
+                DiscardHands();
+                totals[Constants.DEALER].Text = "0";
+                totals[Constants.PLAYER].Text = "0";
+                views[Constants.DEALER].Children.RemoveAt(0);
+                views[Constants.PLAYER].Children.RemoveAt(0);
             }
 
-            private void RecombineDeck()
+            
+            for (int i = 0; i < Constants.STARTING_CARDS; i++)
             {
-                while (usedDeck.TotalCards > 0)
+                await Task.Delay(Constants.DRAW_DELAY);
+
+                if (playDeck.TotalCards == 0)
+                    RecombineDecks();
+
+               
+                if (i == Constants.STARTING_CARDS - 1)
                 {
-                    playDeck.Cards[playDeck.TotalCards] = usedDeck.Cards[usedDeck.TotalCards - 1];
-                    usedDeck.Cards[usedDeck.TotalCards - 1] = null;
-                    usedDeck.TotalCards--;
-                    playDeck.TotalCards++;
-                }
-                Shuffle(playDeck);
-            }
-
-            private void DrawCard(FlexLayout views, theHand hand, Boolean hide)
-            {
-
-                hand.Cards.AddLast(playDeck.Cards[playDeck.TotalCards - 1]);
-                playDeck.Cards[playDeck.TotalCards - 1] = null;
-                playDeck.TotalCards--;
-
-                CalcHandVal(hand);
-
-                 Image img = new Image();
-
-                if (hide)
-                {
-                    img.Source = "/Cards/Back Side.jpg";
-                } else
-                {
-                    img.Source = hand.Cards.Last.Value.ImageSource;
-                }
-                views.Children.Add(img);
-
-            }
-
-            public async Task Play(FlexLayout[] views, Label[] totals, StackLayout[] notifications, Button[] buttons)
-            {
-                if (playerHand.Cards.Count > 0 || dealHand.Cards.Count > 0)
-                {
-                    CleanHands();
-                    totals[GameConstants.DEALER].Text = "0";
-                    totals[GameConstants.PLAYER].Text = "0";
-                    views[GameConstants.PLAYER].Children.RemoveAt(0);
-                    views[GameConstants.DEALER].Children.RemoveAt(0);
-
-
+                    DrawCard(dealerHand, views[Constants.DEALER], true);
+                    continue;
                 }
 
-                for (int i = 0; i < GameConstants.STARTING_CARDS; i++)
+                
+                if (i % 2 == 0)
                 {
-                    await Task.Delay(GameConstants.CARD_DRAW_DELAY);
-                    if (playDeck.TotalCards == 0)
-                    {
-                        RecombineDeck();
-                    }
-
-                    if (i == GameConstants.STARTING_CARDS - 1)
-                    {
-                        DrawCard(views[GameConstants.DEALER], dealHand, true);
-                        continue;
-                    }
-
-                    if (i % 2 == 0)
-                    {
-                        DrawCard(views[GameConstants.PLAYER], playerHand, false);
-                        totals[GameConstants.PLAYER].Text = playerHand.HandVal.ToString();
-                    } else
-                    {
-                        DrawCard(views[GameConstants.DEALER], dealHand, false);
-                        totals[GameConstants.DEALER].Text = dealHand.HandVal.ToString();
-                    }
-                }
-
-                //blackjack logic
-                if (dealHand.HandVal == 21 || playerHand.HandVal == 21)
-                {
-                    if (dealHand.HandVal == 21 && playerHand.HandVal == 21)
-                    {
-                        await Task.Delay(GameConstants.TIMEOUT_DELAY);
-                        ShowCard(views[GameConstants.DEALER], totals[GameConstants.DEALER]);
-                        await ShowNotif(notifications, GameConstants.DEALER_BLACKJACK_NOT);
-                        totals[GameConstants.PUSH].Text = pushes.ToString();
-                        pushes++;
-                        
-                    }
-
-                    else if (dealHand.HandVal == 21 && playerHand.HandVal != 21)
-                    {
-                        await Task.Delay(GameConstants.TIMEOUT_DELAY);
-                        ShowCard(views[GameConstants.DEALER], totals[GameConstants.DEALER]);
-                        await ShowNotif(notifications, GameConstants.DEALER_BLACKJACK_NOT);
-                        losses++;
-                        totals[GameConstants.LOSE].Text = losses.ToString();
-                    } else if (dealHand.HandVal != 21 && playerHand.HandVal == 21)
-                    {
-                        await ShowNotif(notifications, GameConstants.BLACKJACK_NOT);
-                        ShowCard(views[GameConstants.DEALER], totals[GameConstants.DEALER]);
-                        wins++;
-                        totals[GameConstants.WIN].Text = wins.ToString();
-                    }
-                    PlayAgain(buttons);
+                    DrawCard(playerHand, views[Constants.PLAYER], false);
+                    totals[Constants.PLAYER].Text = playerHand.HandValue.ToString();
                 }
                 else
                 {
-                    buttons[GameConstants.HIT].IsEnabled = true;
-                    buttons[GameConstants.STAND].IsEnabled = true;
+                    DrawCard(dealerHand, views[Constants.DEALER], false);
+                    totals[Constants.DEALER].Text = dealerHand.HandValue.ToString();
                 }
             }
 
-            private void CleanHands()
+           
+            if (dealerHand.HandValue == 21 || playerHand.HandValue == 21)
             {
-                while (playerHand.Cards.Count > 0)
+                
+                if (dealerHand.HandValue == 21 && playerHand.HandValue == 21)
                 {
-                    usedDeck.Cards[usedDeck.TotalCards] = playerHand.Cards.Last.Value;
-                    usedDeck.TotalCards++;
-                    playerHand.Cards.RemoveLast();
+                    await Task.Delay(Constants.TIMEOUT_DELAY);
+                    ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
+                    await DisplayNotification(notifications, Constants.PUSH_NOTIF);
+                    pushes++;
+                    totals[Constants.PUSH].Text = pushes.ToString();
                 }
-
-                while (dealHand.Cards.Count > 0)
+                
+                else if (dealerHand.HandValue == 21 && playerHand.HandValue != 21)
                 {
-                    usedDeck.Cards[usedDeck.TotalCards] = dealHand.Cards.Last.Value;
-                    usedDeck.TotalCards++;
-                    dealHand.Cards.RemoveLast();
+                    await Task.Delay(Constants.TIMEOUT_DELAY);
+                    ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
+                    await DisplayNotification(notifications, Constants.DEALER_BLACKJACK_NOTIF);
+                    losses++;
+                    totals[Constants.LOST].Text = losses.ToString();
+                }
+                
+                else if (dealerHand.HandValue != 21 && playerHand.HandValue == 21)
+                {
+                    await DisplayNotification(notifications, Constants.BLACKJACK_NOTIF);
+                    ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
+                    wins++;
+                    winonbj++;
+                    totals[Constants.WIN].Text = wins.ToString();
+                }
+
+                PlayAgain(buttons);
+            }
+            
+            else
+            {
+                buttons[Constants.HIT_BUTTON].IsEnabled = true;
+                buttons[Constants.STAND_BUTTON].IsEnabled = true;
+            }
+        }
+
+        
+        private void DiscardHands()
+        {
+            
+            while (playerHand.Cards.Count > 0)
+            {
+                usedDeck.Cards[usedDeck.TotalCards] = playerHand.Cards.Last.Value;
+                usedDeck.TotalCards++;
+                playerHand.Cards.RemoveLast();
+            }
+
+            
+            while (dealerHand.Cards.Count > 0)
+            {
+                usedDeck.Cards[usedDeck.TotalCards] = dealerHand.Cards.Last.Value;
+                usedDeck.TotalCards++;
+                dealerHand.Cards.RemoveLast();
+            }
+        }
+
+        
+        private void ShowCard(FlexLayout dealerPanel, Label dealerTotal)
+        {
+            
+            dealerPanel.Children.RemoveAt(dealerPanel.Children.Count - 1);
+
+            
+            Image img = new Image();
+            img.Source = dealerHand.Cards.Last.Value.ImageSource;
+            img.HeightRequest = 194;
+            img.Margin = new Thickness(5);
+            dealerPanel.Children.Add(img);
+
+            
+            dealerTotal.Text = dealerHand.HandValue.ToString();
+        }
+
+        
+        private async Task DisplayNotification(StackLayout[] notifications, int n)
+        {
+            notifications[n].IsVisible = true;
+            await Task.Delay(Constants.POPUP_DELAY);
+            notifications[n].IsVisible = false;
+        }
+
+        
+        private void RecombineDecks()
+        {
+            while (usedDeck.TotalCards > 0)
+            {
+                playDeck.Cards[playDeck.TotalCards] = usedDeck.Cards[usedDeck.TotalCards - 1];
+                usedDeck.Cards[usedDeck.TotalCards - 1] = null;
+                usedDeck.TotalCards--;
+                playDeck.TotalCards++;
+            }
+
+            ShuffleDeck(playDeck);
+        }
+
+        
+        private void PlayAgain(Button[] buttons)
+        {
+            buttons[Constants.PLAY_BUTTON].IsEnabled = true;
+        }
+
+        
+        private void CalculateHandValue(Hand hand)
+        {
+            int numOfAces = 0;
+            int value = 0;
+
+           
+            foreach (Card card in hand.Cards)
+            {
+                if (card.CardValue == 11)
+                    numOfAces++;
+
+                value += card.CardValue;
+
+                
+                if (value > 21 && numOfAces > 0)
+                {
+                    numOfAces--;
+                    value -= 10;
                 }
             }
 
-            private void ShowCard(FlexLayout views, Label dealerTot)
+            hand.HandValue = value;
+        }
+
+       
+        private void CreateDecks()
+        {
+            
+            playDeck = new Deck(overallCardCount);
+            for (int i = 0; i < overallCardCount; i++)
             {
-                views.Children.RemoveAt(views.Children.Count - 1);
-                Image img = new Image();
-                img.Source = dealHand.Cards.Last.Value.ImageSource;
-                img.Margin = new Thickness(5);
-                views.Children.Add(img);
-                dealerTot.Text = dealHand.HandVal.ToString();
+                playDeck.Cards[i] = new Card();
+                playDeck.Cards[i].CardValue = Constants.CARDS[i % 13];
+                playDeck.Cards[i].ImageSource = "/Cards/card" + ((i % 52) + 1) + ".png";
             }
 
-            private async Task ShowNotif(StackLayout[] notifications, int n)
-            {
-                notifications[n].IsVisible = true;
-                await Task.Delay(GameConstants.POPUP_DELAY);
-                notifications[n].IsVisible = false;
-            }
+            usedDeck = new Deck(0);
 
-            private void PlayAgain(Button[] buttons)
-            {
-                buttons[GameConstants.PLAY].Text = "Play again?";
-                buttons[GameConstants.PLAY].IsEnabled = true;
-            }
+            ShuffleDeck(playDeck);
+        }
 
+        
+        private void ShuffleDeck(Deck deck)
+        {
+            Card[] cards = deck.Cards;
+            int n = deck.Cards.Length;
+
+            for (int i = 0; i < (n - 1); i++)
+            {
+                int r = i + random.Next(n - i);
+                Card temp = cards[r];
+                cards[r] = cards[i];
+                cards[i] = temp;
+            }
         }
     }
-
+}

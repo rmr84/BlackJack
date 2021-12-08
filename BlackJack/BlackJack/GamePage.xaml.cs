@@ -1,55 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace BlackJack
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
+    /// <summary>
+    /// Interaction logic for Freestyle.xaml
+    /// </summary>
     public partial class GamePage : ContentPage
     {
-        private GameOperations instance;
+        
+        private Game blackjackInstance = new Game();
         private StackLayout[] notifications;
         private FlexLayout[] views;
         private Label[] totals;
         private Button[] buttons;
-        private int deckCount;
         
 
         public GamePage()
         {
+            
             InitializeComponent();
-            instance = new GameOperations(deckCount);
-            views = new FlexLayout[] { DealerView, PlayerView };
-            totals = new Label[] { DealerTotal, PlayerTotal, Win, Lost, Push };
-            notifications = new StackLayout[] { DealersTurnNotification, PushNotification, BustNotification, LostNotification, DealerBlackjackNotification, WinNotification, BlackjackNotification };
             buttons = new Button[] { PlayButton, HitButton, StandButton };
-        }
-
-        private async void HitButton_Clicked(object sender, EventArgs e)
-        {
-            await instance.Hit(views, totals, notifications, buttons);
-        }
-
-        private async void StandButton_Clicked(object sender, EventArgs e)
-        {
-            await instance.Stand(views, totals, notifications, buttons);
+            totals = new Label[] { DealerTotal, PlayerTotal };
+            views = new FlexLayout[] { DealerView, PlayerView };
+            notifications = new StackLayout[] {DealersTurnNotification, PushNotification, BustNotification,
+            LostNotification, DealerBlackjackNotification, WinNotification, BlackjackNotification };
+           
         }
 
         private async void PlayButton_Clicked(object sender, EventArgs e)
         {
             PlayButton.IsEnabled = false;
-            HitButton.IsEnabled = true;
-            StandButton.IsEnabled = true;
-            await instance.Play(views, totals, notifications, buttons);
 
+
+            await blackjackInstance.Play(views, totals, notifications, buttons);
+        }
+     
+        private async void HitButton_Clicked(object sender, EventArgs e)
+        {
+            await blackjackInstance.Hit(views, totals, notifications, buttons);
+        }
+
+        private async void StandButton_Clicked(object sender, EventArgs e)
+        {
+            await blackjackInstance.Stand(views, totals, notifications, buttons);
         }
     }
 
-    
+       
+
 }
