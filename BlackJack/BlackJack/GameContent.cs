@@ -12,6 +12,7 @@ namespace BlackJack
 {
     public static class Constants
     {
+
         public static readonly int[] CARDS = { 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10 };
         public const int CARD_DECK = 52;
         public const int STARTING_CARDS = 4;
@@ -221,6 +222,7 @@ namespace BlackJack
         
         public async Task Play(FlexLayout[] views, Label[] totals, StackLayout[] notifications, Button[] buttons)
         {
+            
            
             if (playerHand.Cards.Count > 0 || dealerHand.Cards.Count > 0)
             {
@@ -239,7 +241,6 @@ namespace BlackJack
                 if (playDeck.TotalCards == 0)
                     RecombineDecks();
 
-               
                 if (i == Constants.STARTING_CARDS - 1)
                 {
                     DrawCard(dealerHand, views[Constants.DEALER], true);
@@ -326,10 +327,9 @@ namespace BlackJack
             
             dealerPanel.Children.RemoveAt(dealerPanel.Children.Count - 1);
 
-            
             Image img = new Image();
             img.Source = dealerHand.Cards.Last.Value.ImageSource;
-            img.HeightRequest = 194;
+            img.HeightRequest = 190;
             img.Margin = new Thickness(5);
             dealerPanel.Children.Add(img);
 

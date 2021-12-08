@@ -12,6 +12,7 @@ namespace BlackJack
     public partial class MainPage : ContentPage
     {
         private Manager manager = Manager.GetInstance();
+        public static readonly HttpClient client = new HttpClient();
         
         
         public MainPage()
@@ -20,11 +21,7 @@ namespace BlackJack
 
         }
 
-        protected override async void OnAppearing()
-        {
-            base.OnAppearing();
-
-        }
+        
 
             private async void NewGame_Clicked(object sender, EventArgs e)
             {
@@ -34,7 +31,7 @@ namespace BlackJack
                 await DisplayAlert("Error", check, "Try again");
                 return;
             }
-
+                //await Post(c)
                 await Navigation.PushAsync(new GamePage());
             }
             
@@ -47,7 +44,7 @@ namespace BlackJack
                 return;
             }
 
-            await Navigation.PushAsync(new StatPage(true));
+            await Navigation.PushAsync(new StatPage(true, true, 0));
               
         }
 
@@ -73,5 +70,20 @@ namespace BlackJack
         {
             await Browser.OpenAsync(new Uri("https://responsibleplay.pa.gov/get-gambling-addiction-help/"));
         }
+
+        // post 
+        //public async Task Post(CardModel userId)
+        // {
+        // userId.userId = userId.Text;
+        // var uri = new uri("https://....);
+        // String json = JsonConvert.SerializeObject(userId);
+        // StringContent strContent = new StringContent(json, Encoding.UTF8, "application/jsond");
+        // HttpResponseMessage response = new HttpResponseMessage();
+        // response = await client.PostAsync(uri, strContent);
+
+        //if (response.isSuccessStatusCode)
+        //{
+        //console.writeline("WORKED!!!!!!!!!!!!!!!!!);
+        //Console.writeline(c)
     }
 }

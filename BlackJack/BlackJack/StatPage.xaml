@@ -5,7 +5,7 @@
     
     <ContentPage.Content>
         <StackLayout x:Name="forList" Orientation="Vertical" BackgroundColor="Green">
-            <Label x:Name="WelcomeUser">
+            <Label x:Name="WelcomeUser" WidthRequest="250" VerticalTextAlignment="Start" FontSize="30" TextColor="White" FontAttributes="Bold">
                 
             </Label>
             <ListView x:Name="ListView" 
@@ -14,17 +14,30 @@
                                     ItemTapped="ListView_ItemTapped"
                                         IsVisible="True">
             </ListView>
+
+            <Button x:Name="Upload"
+                    Text="Upload Stats"
+                        TextColor="White"
+                               BackgroundColor="Blue"       
+                                    VerticalOptions="End"
+                                        FontSize="Large"
+                                            FontAttributes="Bold"
+                                                Clicked="Upload_Clicked">
+
+            </Button>
             <Button x:Name="Reset" 
                     Text="Reset Stats"
                         TextColor="White"
                             BackgroundColor="Red"
-                                HorizontalOptions="CenterAndExpand"
-                                    VerticalOptions="EndAndExpand"
+                                
+                                    VerticalOptions="End"
                                         FontSize="Large"
                                             FontAttributes="Bold"
+                                                IsVisible="false"
                                                 Clicked="Reset_Clicked">
                 
             </Button>
+            
                                         
         </StackLayout>
     </ContentPage.Content>

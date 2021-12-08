@@ -7,7 +7,7 @@ namespace BlackJack
     class GameManager
     {
         public static readonly GameManager manager = new GameManager();
-        public List<APIModel> list = new List<APIModel>();
+        public List<CardModel> list = new List<CardModel>();
 
 
         private GameManager() { }

@@ -8,7 +8,7 @@ namespace BlackJack
     class Manager
     {
         public static readonly Manager manager = new Manager();
-        public List<APIModel> list = new List<APIModel>();
+        public List<CardModel> list = new List<CardModel>();
         
 
         private Manager() { }
@@ -18,14 +18,14 @@ namespace BlackJack
             return manager;
         }
 
-        public List<APIModel> GetItems()
+        public List<CardModel> GetItems()
         {
             return list;
         }
 
-        public ObservableCollection<APIModel> GetObsList()
+        public ObservableCollection<CardModel> GetObsList()
         {
-            return new ObservableCollection<APIModel>();
+            return new ObservableCollection<CardModel>();
         }
     }
 }
