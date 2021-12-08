@@ -35,14 +35,18 @@ namespace BlackJack
         private async void PlayButton_Clicked(object sender, EventArgs e)
         {
             PlayButton.IsEnabled = false;
-
+            PlayerView.IsVisible = true;
+            DealerView.IsVisible = true;
+            
 
             await blackjackInstance.Play(views, totals, notifications, buttons);
+            
         }
      
         private async void HitButton_Clicked(object sender, EventArgs e)
         {
             await blackjackInstance.Hit(views, totals, notifications, buttons);
+           
         }
 
         private async void StandButton_Clicked(object sender, EventArgs e)

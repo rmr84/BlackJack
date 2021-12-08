@@ -16,7 +16,6 @@ namespace BlackJack
         
         public MainPage()
         {
-            
             InitializeComponent();
 
         }

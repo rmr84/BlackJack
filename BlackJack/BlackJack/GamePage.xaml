@@ -31,7 +31,7 @@
                 <Label x:Name="DealerTotal" FontSize="16" FontAttributes="Bold" TextColor="white" FontFamily="Arial Black"/>
             </StackLayout>
             <ScrollView  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Background="#AA333333" HeightRequest="220"  IsVisible="true">
-                <FlexLayout x:Name="DealerView" HorizontalOptions="Center" VerticalOptions="Start">
+                <FlexLayout x:Name="DealerView" HorizontalOptions="Center" VerticalOptions="Start" IsVisible="false">
                     <Image Source="/Cards/card1.png" />
                 </FlexLayout>
             </ScrollView>
@@ -43,7 +43,7 @@
                 <Label x:Name="PlayerTotal" FontSize="16" FontAttributes="Bold" TextColor="white" FontFamily="Arial Black"/>
             </StackLayout>
             <ScrollView  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5" Background="#AA333333" HeightRequest="220" IsVisible="true">
-                <FlexLayout x:Name="PlayerView" HorizontalOptions="Center" VerticalOptions="Start">
+                <FlexLayout x:Name="PlayerView" HorizontalOptions="Center" VerticalOptions="Start" IsVisible="false">
                 </FlexLayout>
             </ScrollView>
 

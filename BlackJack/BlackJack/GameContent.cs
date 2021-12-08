@@ -178,7 +178,7 @@ namespace BlackJack
             DrawCard(playerHand, views[Constants.PLAYER], false);
             totals[Constants.PLAYER].Text = playerHand.HandValue.ToString();
 
-            // Player busted.
+            
             if (playerHand.HandValue > 21)
             {
                 buttons[Constants.HIT_BUTTON].IsEnabled = false;
@@ -209,11 +209,11 @@ namespace BlackJack
             Image img = new Image();
 
             if (hideCard)
-                img.Source = "/Cards/Back Side.jpg";
+                img.Source = "BackSide.jpg";
             else
                 img.Source = hand.Cards.Last.Value.ImageSource;
 
-            img.HeightRequest = 194;
+            img.HeightRequest = 190;
             img.Margin = new Thickness(5);
             panel.Children.Add(img);
         }
@@ -399,7 +399,7 @@ namespace BlackJack
             {
                 playDeck.Cards[i] = new Card();
                 playDeck.Cards[i].CardValue = Constants.CARDS[i % 13];
-                playDeck.Cards[i].ImageSource = "/Cards/card" + ((i % 52) + 1) + ".png";
+                playDeck.Cards[i].ImageSource = "card" + ((i % 52) + 1) + ".png";
             }
 
             usedDeck = new Deck(0);
