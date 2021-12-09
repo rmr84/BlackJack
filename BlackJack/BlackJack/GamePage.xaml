@@ -51,6 +51,7 @@
             <!-- Playbuttons -->
             <StackLayout Grid.Column="0"  Grid.Row="6" Orientation="Horizontal" VerticalOptions="EndAndExpand">
                 <Button x:Name="PlayButton" Text="Play" Clicked="PlayButton_Clicked"  IsEnabled="True"/>
+               
 
             </StackLayout>
 

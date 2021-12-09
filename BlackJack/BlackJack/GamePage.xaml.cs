@@ -13,7 +13,7 @@ namespace BlackJack
     public partial class GamePage : ContentPage
     {
 
-        private Game blackjackInstance;
+        private Game blackjackInstance; 
         private StackLayout[] notifications;
         private FlexLayout[] views;
         private Label[] totals;
@@ -24,45 +24,50 @@ namespace BlackJack
         {
             
             InitializeComponent();
-         //   buttons = new Button[] { PlayButton, HitButton, StandButton };
+            buttons = new Button[] { PlayButton, HitButton, StandButton };
             totals = new Label[] { DealerTotal, PlayerTotal };
             views = new FlexLayout[] { DealerView, PlayerView };
-            notifications = new StackLayout[] {DealersTurnNotification, PushNotification, BustNotification,
-            LostNotification, DealerBlackjackNotification, WinNotification, BlackjackNotification };
+            
            
         }
 
         private async void PlayButton_Clicked(object sender, EventArgs e)
         {
             
+            PlayerView.Children.Clear();
+            DealerView.Children.Clear();
             blackjackInstance = new Game();
-            
             System.Diagnostics.Debug.WriteLine("play button clicked");
             PlayButton.IsEnabled = false;
             PlayerView.IsVisible = true;
             DealerView.IsVisible = true;
             
 
-            await blackjackInstance.Play(views, totals, notifications, buttons);
+            await blackjackInstance.Play(views, totals, buttons);
             HitButton.IsEnabled = true;
             StandButton.IsEnabled = true;
             
+            
+
         }
      
         private async void HitButton_Clicked(object sender, EventArgs e)
         {
-            await blackjackInstance.Hit(views, totals, notifications, buttons);
+            await blackjackInstance.Hit(views, totals, buttons);
             
         }
 
         private async void StandButton_Clicked(object sender, EventArgs e)
         {
-            await blackjackInstance.Stand(views, totals, notifications, buttons);
+            await blackjackInstance.Stand(views, totals, buttons);
             HitButton.IsEnabled = false;
             StandButton.IsEnabled = false;
+        }
+
+     
         }
     }
 
        
 
-}
+

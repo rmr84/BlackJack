@@ -19,29 +19,30 @@ namespace BlackJack
         public static readonly HttpClient client = new HttpClient();
         private Manager manager = Manager.GetInstance();
         CardModel c = new CardModel();
-       
-        private int index;
 
-       
+        // private int index;
+
+
         public StatPage(bool reset)
         {
             InitializeComponent();
-            
+
             Reset.IsVisible = reset;
-            
-            
-            if (reset && index >= 0)
-            {
-                var var1 = manager.GetObsList()[index];
-                WelcomeUser.Text = var1.userID;
-
-            }
-
-            if (!Reset.IsVisible)
-            {
-                //await Post(c)
-            }
         }
+            
+            
+           // if (reset && index >= 0)
+           // {
+             //   var var1 = manager.GetObsList()[index];
+             //   WelcomeUser.Text = var1.userID;
+
+          //  }
+
+         //   if (!Reset.IsVisible)
+         //   {
+                //await Post(c)
+        //    }
+      //  }
 
         private async void Reset_Clicked(object sender, EventArgs e)
         {
