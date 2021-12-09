@@ -13,15 +13,13 @@ namespace BlackJack
     {
         private Manager manager = Manager.GetInstance();
         public static readonly HttpClient client = new HttpClient();
-        
+        CardModel c = new CardModel();
         
         public MainPage()
         {
             InitializeComponent();
 
         }
-
-        
 
             private async void NewGame_Clicked(object sender, EventArgs e)
             {
@@ -44,7 +42,7 @@ namespace BlackJack
                 return;
             }
 
-            await Navigation.PushAsync(new StatPage(true, true, 0));
+            await Navigation.PushAsync(new StatPage(true));
               
         }
 

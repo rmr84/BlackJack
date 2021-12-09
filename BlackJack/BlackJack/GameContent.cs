@@ -13,6 +13,8 @@ namespace BlackJack
     public static class Constants
     {
 
+        
+
         public static readonly int[] CARDS = { 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10 };
         public const int CARD_DECK = 52;
         public const int STARTING_CARDS = 4;
@@ -229,14 +231,13 @@ namespace BlackJack
                 DiscardHands();
                 totals[Constants.DEALER].Text = "0";
                 totals[Constants.PLAYER].Text = "0";
-                views[Constants.DEALER].Children.RemoveAt(0);
-                views[Constants.PLAYER].Children.RemoveAt(0);
+                
             }
 
             
-            for (int i = 0; i < Constants.STARTING_CARDS; i++)
+            for (int i = 0; i <= Constants.STARTING_CARDS -1; i++)
             {
-                await Task.Delay(Constants.DRAW_DELAY);
+               // await Task.Delay(Constants.DRAW_DELAY);
 
                 if (playDeck.TotalCards == 0)
                     RecombineDecks();
@@ -244,6 +245,7 @@ namespace BlackJack
                 if (i == Constants.STARTING_CARDS - 1)
                 {
                     DrawCard(dealerHand, views[Constants.DEALER], true);
+                    ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
                     continue;
                 }
 
@@ -251,6 +253,7 @@ namespace BlackJack
                 if (i % 2 == 0)
                 {
                     DrawCard(playerHand, views[Constants.PLAYER], false);
+                    ShowCard(views[Constants.PLAYER], totals[Constants.PLAYER]);
                     totals[Constants.PLAYER].Text = playerHand.HandValue.ToString();
                 }
                 else

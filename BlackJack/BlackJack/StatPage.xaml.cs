@@ -19,16 +19,16 @@ namespace BlackJack
         public static readonly HttpClient client = new HttpClient();
         private Manager manager = Manager.GetInstance();
         CardModel c = new CardModel();
-        private bool put = false;
+       
         private int index;
 
        
-        public StatPage( bool reset, bool put, int index)
+        public StatPage(bool reset)
         {
             InitializeComponent();
-            this.put = put;
+            
             Reset.IsVisible = reset;
-            this.index = index;
+            
             
             if (reset && index >= 0)
             {
