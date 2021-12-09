@@ -24,7 +24,7 @@ namespace BlackJack
         {
             
             InitializeComponent();
-            buttons = new Button[] { PlayButton, HitButton, StandButton };
+         //   buttons = new Button[] { PlayButton, HitButton, StandButton };
             totals = new Label[] { DealerTotal, PlayerTotal };
             views = new FlexLayout[] { DealerView, PlayerView };
             notifications = new StackLayout[] {DealersTurnNotification, PushNotification, BustNotification,
@@ -34,7 +34,9 @@ namespace BlackJack
 
         private async void PlayButton_Clicked(object sender, EventArgs e)
         {
+            
             blackjackInstance = new Game();
+            
             System.Diagnostics.Debug.WriteLine("play button clicked");
             PlayButton.IsEnabled = false;
             PlayerView.IsVisible = true;
@@ -42,18 +44,22 @@ namespace BlackJack
             
 
             await blackjackInstance.Play(views, totals, notifications, buttons);
+            HitButton.IsEnabled = true;
+            StandButton.IsEnabled = true;
             
         }
      
         private async void HitButton_Clicked(object sender, EventArgs e)
         {
             await blackjackInstance.Hit(views, totals, notifications, buttons);
-           
+            
         }
 
         private async void StandButton_Clicked(object sender, EventArgs e)
         {
             await blackjackInstance.Stand(views, totals, notifications, buttons);
+            HitButton.IsEnabled = false;
+            StandButton.IsEnabled = false;
         }
     }
 

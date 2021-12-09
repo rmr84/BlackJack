@@ -188,19 +188,13 @@ namespace BlackJack
                     PlayAgain(buttons);
                 }
 
-                else
-                {
-                    buttons[Constants.HIT_BUTTON].IsEnabled = true;
-                    buttons[Constants.STAND_BUTTON].IsEnabled = true;
-                }
+                
             }
 
 
             public async Task Stand(FlexLayout[] views, Label[] totals, StackLayout[] notifications, Button[] buttons)
             {
-                buttons[Constants.HIT_BUTTON].IsEnabled = false;
-                buttons[Constants.STAND_BUTTON].IsEnabled = false;
-
+                
                 await Task.Delay(Constants.TIMEOUT_DELAY);
 
                 ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
@@ -226,14 +220,14 @@ namespace BlackJack
                     await DisplayNotification(notifications, Constants.WIN_NOTIF);
                     winOnStand++;
                     wins++;
-                    totals[Constants.WIN].Text = wins.ToString();
+                   
                 }
 
                 else if (dealerHand.HandValue == playerHand.HandValue)
                 {
                     await DisplayNotification(notifications, Constants.PUSH_NOTIF);
                     pushes++;
-                    totals[Constants.PUSH].Text = pushes.ToString();
+                    
                 }
 
                 else if (dealerHand.HandValue < playerHand.HandValue)
@@ -241,7 +235,7 @@ namespace BlackJack
                     await DisplayNotification(notifications, Constants.WIN_NOTIF);
                     wins++;
                     winOnStand++;
-                    totals[Constants.WIN].Text = wins.ToString();
+                    
                 }
 
                 else
@@ -249,7 +243,7 @@ namespace BlackJack
                     await DisplayNotification(notifications, Constants.LOST_NOTIF);
                     losses++;
                     loseOnStand++;
-                    totals[Constants.LOST].Text = losses.ToString();
+                    
                 }
 
                 PlayAgain(buttons);
@@ -265,20 +259,15 @@ namespace BlackJack
                 DrawCard(playerHand, views[Constants.PLAYER], false);
                 totals[Constants.PLAYER].Text = playerHand.HandValue.ToString();
 
-
                 if (playerHand.HandValue > 21)
                 {
-                    buttons[Constants.HIT_BUTTON].IsEnabled = false;
-                    buttons[Constants.STAND_BUTTON].IsEnabled = false;
-
+                  //  buttons[Constants.HIT_BUTTON].IsEnabled = false;
+                  //  buttons[Constants.STAND_BUTTON].IsEnabled = false;
                     await DisplayNotification(notifications, Constants.BUST_NOTIF);
                     busts++;
                     loseOnHit++;
                     losses++;
-                    totals[Constants.LOST].Text = losses.ToString();
-
                     ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
-
                     PlayAgain(buttons);
                 }
             }
@@ -299,8 +288,9 @@ namespace BlackJack
                 else
                     img.Source = hand.Cards.Last.Value.ImageSource;
 
-                img.HeightRequest = 150;
-                img.Margin = new Thickness(5);
+                img.HeightRequest = 100;
+                img.WidthRequest = 50;
+                img.Margin = new Thickness(3);
                 panel.Children.Add(img);
             }
 
@@ -358,8 +348,9 @@ namespace BlackJack
 
                 Image img = new Image();
                 img.Source = dealerHand.Cards.Last.Value.ImageSource;
-                img.HeightRequest = 150;
-                img.Margin = new Thickness(5);
+                img.HeightRequest = 100;
+                img.WidthRequest = 50;
+                img.Margin = new Thickness(3);
                 dealerPanel.Children.Add(img);
 
 
