@@ -32,7 +32,6 @@
             </StackLayout>
             <ScrollView  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Background="#AA333333" HeightRequest="220"  IsVisible="true">
                 <FlexLayout x:Name="DealerView" HorizontalOptions="Center" VerticalOptions="Start" IsVisible="false">
-                    <Image Source="/Cards/card1.png" />
                 </FlexLayout>
             </ScrollView>
 
