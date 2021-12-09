@@ -143,7 +143,55 @@
     <BundleResource Include="Resources\BackSide.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <BundleResource Include="Resources\card45.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\card46.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\card47.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\card48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\card49.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\card50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\card51.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\card52.png" />
+  </ItemGroup>
+  <ItemGroup>
     <BundleResource Include="Resources\card1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\card2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\card3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\card4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\card5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\card6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\card7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\card8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\card9.png" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\card10.png" />
@@ -176,9 +224,6 @@
     <BundleResource Include="Resources\card19.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\card2.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\card20.png" />
   </ItemGroup>
   <ItemGroup>
@@ -207,9 +252,6 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\card29.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\card3.png" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\card30.png" />
@@ -242,9 +284,6 @@
     <BundleResource Include="Resources\card39.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\card4.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\card40.png" />
   </ItemGroup>
   <ItemGroup>
@@ -258,44 +297,5 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\card44.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\card45.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\card46.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\card47.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\card48.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\card49.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\card5.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\card50.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\card51.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\card52.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\card6.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\card7.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\card8.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\card9.png" />
   </ItemGroup>
 </Project>

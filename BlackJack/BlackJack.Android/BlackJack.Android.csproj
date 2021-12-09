@@ -84,9 +84,6 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\gameback.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\BlackJack\BlackJack.csproj">
       <Project>{B70B7B8E-9098-468A-9838-CC2B4C56ECE1}</Project>
       <Name>BlackJack</Name>
@@ -99,160 +96,163 @@
     <AndroidResource Include="Resources\drawable\BackSide.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\C10.png" />
+    <AndroidResource Include="Resources\drawable\card45.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\D3.png" />
+    <AndroidResource Include="Resources\drawable\card46.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\H3.png" />
+    <AndroidResource Include="Resources\drawable\card47.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\S3.png" />
+    <AndroidResource Include="Resources\drawable\card48.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\C4.png" />
+    <AndroidResource Include="Resources\drawable\card49.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\D4.png" />
+    <AndroidResource Include="Resources\drawable\card50.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\H4.png" />
+    <AndroidResource Include="Resources\drawable\card51.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\S4.png" />
+    <AndroidResource Include="Resources\drawable\card52.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\C5.png" />
+    <AndroidResource Include="Resources\drawable\card1.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\D5.png" />
+    <AndroidResource Include="Resources\drawable\card2.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\H5.png" />
+    <AndroidResource Include="Resources\drawable\card3.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\D10.png" />
+    <AndroidResource Include="Resources\drawable\card4.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\S5.png" />
+    <AndroidResource Include="Resources\drawable\card5.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\C6.png" />
+    <AndroidResource Include="Resources\drawable\card6.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\D6.png" />
+    <AndroidResource Include="Resources\drawable\card7.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\H6.png" />
+    <AndroidResource Include="Resources\drawable\card8.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\S6.png" />
+    <AndroidResource Include="Resources\drawable\card9.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\C7.png" />
+    <AndroidResource Include="Resources\drawable\card10.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\D7.png" />
+    <AndroidResource Include="Resources\drawable\card11.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\H7.png" />
+    <AndroidResource Include="Resources\drawable\card12.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\S7.png" />
+    <AndroidResource Include="Resources\drawable\card13.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\C8.png" />
+    <AndroidResource Include="Resources\drawable\card14.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\H10.png" />
+    <AndroidResource Include="Resources\drawable\card15.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\D8.png" />
+    <AndroidResource Include="Resources\drawable\card16.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\H8.png" />
+    <AndroidResource Include="Resources\drawable\card17.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\S8.png" />
+    <AndroidResource Include="Resources\drawable\card18.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\C9.png" />
+    <AndroidResource Include="Resources\drawable\card19.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\D9.png" />
+    <AndroidResource Include="Resources\drawable\card20.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\H9.png" />
+    <AndroidResource Include="Resources\drawable\card21.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\S9.png" />
+    <AndroidResource Include="Resources\drawable\card22.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\CA.png" />
+    <AndroidResource Include="Resources\drawable\card23.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\DA.png" />
+    <AndroidResource Include="Resources\drawable\card24.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\HA.png" />
+    <AndroidResource Include="Resources\drawable\card25.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\S10.png" />
+    <AndroidResource Include="Resources\drawable\card26.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\SA.png" />
+    <AndroidResource Include="Resources\drawable\card27.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\CJ.png" />
+    <AndroidResource Include="Resources\drawable\card28.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\DJ.png" />
+    <AndroidResource Include="Resources\drawable\card29.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\HJ.png" />
+    <AndroidResource Include="Resources\drawable\card30.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\SJ.png" />
+    <AndroidResource Include="Resources\drawable\card31.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\CK.png" />
+    <AndroidResource Include="Resources\drawable\card32.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\DK.png" />
+    <AndroidResource Include="Resources\drawable\card33.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\HK.png" />
+    <AndroidResource Include="Resources\drawable\card34.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\SK.png" />
+    <AndroidResource Include="Resources\drawable\card35.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\CQ.png" />
+    <AndroidResource Include="Resources\drawable\card36.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\C2.png" />
+    <AndroidResource Include="Resources\drawable\card37.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\DQ.png" />
+    <AndroidResource Include="Resources\drawable\card38.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\HQ.png" />
+    <AndroidResource Include="Resources\drawable\card39.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\SQ.png" />
+    <AndroidResource Include="Resources\drawable\card40.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\D2.png" />
+    <AndroidResource Include="Resources\drawable\card41.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\H2.png" />
+    <AndroidResource Include="Resources\drawable\card42.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\S2.png" />
+    <AndroidResource Include="Resources\drawable\card43.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\C3.png" />
+    <AndroidResource Include="Resources\drawable\card44.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\gameback.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
