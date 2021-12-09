@@ -11,10 +11,234 @@ using System.Diagnostics;
 
 namespace BlackJack
 {
+  
+
+    public class Card
+    {
+        private string suit;
+        private string face;
+        public Card() { }
+        public Card(string f, string s)
+        {
+            Suit = s;
+            Face = f;
+
+        }
+        public string Suit
+        {
+            get => suit;
+            set
+            {
+                if (value.Equals("H") || value.Equals("S") || value.Equals("D") || value.Equals("C"))
+                {
+                    suit = value;
+                }
+            }
+        }
+        public string Face
+        {
+            get => face;
+            set
+            {
+                if (value.Equals("A") || value.Equals("K") || value.Equals("Q") || value.Equals("J"))
+                {
+                    face = value;
+                }
+                if (face == null)
+                {
+                    int intVal = -1;
+                    try
+                    {
+                        intVal = int.Parse(value);
+                    }
+                    catch (ArgumentNullException)
+                    {
+                        Debug.WriteLine("Value is null");
+                    }
+                    catch (FormatException)
+                    {
+                        Debug.WriteLine("value is not an integer");
+                    }
+                    if (intVal > 1 && intVal < 11)
+                    {
+                        face = value;
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Choose 2-10 j q k a");
+                    }
+                }
+            }
+        }
+
+        public int? getVal()
+        {
+            if (this.face != null)
+            {
+                switch (this.face.ToUpper())
+                {
+                    case "A":
+                        return 11;
+                    case "K":
+                    case "Q":
+                    case "J":
+                        return 10;
+                    default:
+                        return Int32.Parse(this.face);
+
+                }
+            }
+            return null;
+        }
+        public string getPic()
+        {
+            return this.suit + this.face + ".png";
+        }
+        public virtual string ToString()
+        {
+            return face + suit;
+        }
+    }
+
+    public class CardGroup
+    {
+        private Card[] cards;
+        private int size;
+
+        public CardGroup()
+        {
+            cards = new Card[52];
+            size = 0;
+        }
+
+        public Card[] Cards
+        {
+            get => cards;
+            set => cards = value;
+        }
+
+        public int Size
+        {
+            get => size;
+            set => size = value;
+        }
+
+        public Card getCard(int i)
+        {
+            if(i > size - 1 || i < 0)
+            {
+                int s = size - 1;
+                Debug.WriteLine("Invalid index selection");
+                return null;
+            }
+            return cards[i];
+        }
+
+        public void SetCard(int i, Card c)
+        {
+            cards[i] = c;
+        }
+
+        public void AddToDeck(Card c)
+        {
+            if (size == 52)
+            {
+                Debug.WriteLine("The deck is already full. Can't add another card");
+            }
+            else
+            {
+                int index = Array.IndexOf(cards, null);
+                cards[index] = c;
+                size++;
+            }
+        }
+
+        public void MakeDeck()
+        {
+            size = 0;
+            String[] suit = { "H", "D", "S", "C" };
+            String[] face = { "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A" };
+            int i = 0;
+            int j = 0;
+
+            while (i > suit.Length)
+            {
+                while (j < face.Length)
+                {
+                    cards[size] = new Card(face[j], suit[i]);
+                    size++;
+                    j++;
+                }
+                i++;
+                j = 0;
+            }
+        }
+        public void Shuffle()
+        {
+            Random rand = new Random();
+            for (int i = 0; i < size - 1; i++)
+            {
+                int j = rand.Next(i, this.cards.Length);
+                Card temp = this.cards[i];
+                this.cards[i] = this.cards[j];
+                this.cards[j] = temp;
+            }
+        }
+        public Card DealTopCard()
+        {
+            Card topCard = cards[0];
+
+            for (int i = 0; i < cards.Length - 1; i++)
+            {
+                if (cards[i] != null)
+                {
+                    cards[i] = cards[i + 1];
+                }
+                else break;
+            }
+            cards[--size] = null;
+            return topCard;
+        }
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder("");
+            foreach (Card c in cards)
+            {
+                if (c != null)
+                {
+                    sb.Append(c.ToString() + " ");
+                }
+                else break;
+            }
+            return sb.ToString();
+        }
+    }
+}
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public static class Constants
     {
 
-        
+
 
         public static readonly int[] CARDS = { 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10 };
         public const int CARD_DECK = 52;
@@ -38,19 +262,29 @@ namespace BlackJack
         public const int DEALER_BLACKJACK_NOTIF = 4;
         public const int WIN_NOTIF = 5;
         public const int BLACKJACK_NOTIF = 6;
-      
+
     }
 
-    public partial class Card
-    {
-        private int cardValue;
+
+
+
+
+
+
+
+
+
+
+
+    private int cardValue;
         private string imageSource;
 
         public int CardValue { get => cardValue; set => cardValue = value; }
         public string ImageSource { get => imageSource; set => imageSource = value; }
     }
+ 
 
-    public partial class Deck
+        public partial class Deck
     {
         private Card[] cards;
         private int totalCards;
@@ -64,15 +298,19 @@ namespace BlackJack
 
         public Card[] Cards { get => cards; set => cards = value; }
         public int TotalCards { get => totalCards; set => totalCards = value; }
+
+        //getnextcard
     }
 
-    public partial class Hand
+    public class Hand
     {
         private LinkedList<Card> cards = new LinkedList<Card>();
         private int handValue = 0;
 
         public LinkedList<Card> Cards { get => cards; set => cards = value; }
         public int HandValue { get => handValue; set => handValue = value; }
+
+       //add up values on cards here
     }
 
     public partial class Game
@@ -238,7 +476,8 @@ namespace BlackJack
             
             for (int i = 0; i <= Constants.STARTING_CARDS - 1; i++)
             {
-               // await Task.Delay(Constants.DRAW_DELAY);
+                Console.Write("i is currently: " + i + "\n");
+                await Task.Delay(Constants.DRAW_DELAY);
 
                 if (playDeck.TotalCards == 0)
                     RecombineDecks();
@@ -246,21 +485,22 @@ namespace BlackJack
                 if (i == Constants.STARTING_CARDS - 1)
                 {
                     DrawCard(dealerHand, views[Constants.DEALER], true);
-                    System.Diagnostics.Debug.WriteLine("card drawn dealer facing down");
+                    Console.WriteLine("i (should be 3 here): " + i + "\n");
                     continue;
                 }
 
                 
                 if (i % 2 == 0)
                 {
+                    Console.WriteLine("Drawing card for the player because he does not have a card card" + "\n");
                     DrawCard(playerHand, views[Constants.PLAYER], false);
-                    System.Diagnostics.Debug.WriteLine("card drawn for player");
+                    
                     totals[Constants.PLAYER].Text = playerHand.HandValue.ToString();
                 }
                 else
                 {
+                    Console.WriteLine("Drawing card for dealer because they need the card that has not been revealed." + "\n");
                     DrawCard(dealerHand, views[Constants.DEALER], false);
-                    System.Diagnostics.Debug.WriteLine("card drawn for dealer");
                     totals[Constants.DEALER].Text = dealerHand.HandValue.ToString();
                 }
             }
@@ -271,6 +511,7 @@ namespace BlackJack
                 
                 if (dealerHand.HandValue == 21 && playerHand.HandValue == 21)
                 {
+                    Console.WriteLine("this is a blackjack push" + "\n");
                     await Task.Delay(Constants.TIMEOUT_DELAY);
                     ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
                     await DisplayNotification(notifications, Constants.PUSH_NOTIF);
@@ -426,5 +667,8 @@ namespace BlackJack
                 cards[i] = temp;
             }
         }
+
+
+
     }
 }
