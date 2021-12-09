@@ -12,8 +12,8 @@ namespace BlackJack
     /// </summary>
     public partial class GamePage : ContentPage
     {
-        
-        private Game blackjackInstance = new Game();
+
+        private Game blackjackInstance;
         private StackLayout[] notifications;
         private FlexLayout[] views;
         private Label[] totals;
@@ -34,6 +34,7 @@ namespace BlackJack
 
         private async void PlayButton_Clicked(object sender, EventArgs e)
         {
+            blackjackInstance = new Game();
             System.Diagnostics.Debug.WriteLine("play button clicked");
             PlayButton.IsEnabled = false;
             PlayerView.IsVisible = true;

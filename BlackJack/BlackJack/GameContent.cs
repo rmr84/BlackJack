@@ -114,52 +114,47 @@ namespace BlackJack
                 playerHand = new Hand();
             }
 
-            public async Task Play(FlexLayout[] views, Label[] totals, StackLayout[] notifications, Button[] buttons)
+        public async Task Play(FlexLayout[] views, Label[] totals, StackLayout[] notifications, Button[] buttons)
+        {
+            // Clean up last round.
+            if (playerHand.Cards.Count > 0 || dealerHand.Cards.Count > 0)
             {
+                DiscardHands();
+                totals[Constants.DEALER].Text = "0";
+                totals[Constants.PLAYER].Text = "0";
+                views[Constants.DEALER].Children.RemoveAt(0);
+                views[Constants.PLAYER].Children.RemoveAt(0);
+            }
 
+            // Draw cards.
+            for (int i = 0; i < Constants.STARTING_CARDS; i++)
+            {
+                await Task.Delay(Constants.DRAW_DELAY);
 
-                if (playerHand.Cards.Count > 0 || dealerHand.Cards.Count > 0)
+                if (playDeck.TotalCards == 0)
+                    RecombineDecks();
+
+                // Last draw. Hides last dealer card.
+                if (i == Constants.STARTING_CARDS - 1)
                 {
-                    DiscardHands();
-                    totals[Constants.DEALER].Text = "0";
-                    totals[Constants.PLAYER].Text = "0";
-
+                    DrawCard(dealerHand, views[Constants.DEALER], true);
+                    continue;
                 }
 
-
-                for (int i = 0; i <= Constants.STARTING_CARDS - 1; i++)
+                // Flop between drawing a player and dealer card.
+                if (i % 2 == 0)
                 {
-                    Console.Write("i is currently: " + i + "\n");
-                    await Task.Delay(Constants.DRAW_DELAY);
-
-                    if (playDeck.TotalCards == 0)
-                        RecombineDecks();
-
-                    if (i == Constants.STARTING_CARDS - 1)
-                    {
-                        DrawCard(dealerHand, views[Constants.DEALER], true);
-                        Console.WriteLine("i (should be 3 here): " + i + "\n");
-                        continue;
-                    }
-
-
-                    if (i % 2 == 0)
-                    {
-                        Console.WriteLine("Drawing card for the player because he does not have a card card" + "\n");
-                        DrawCard(playerHand, views[Constants.PLAYER], false);
-
-                        totals[Constants.PLAYER].Text = playerHand.HandValue.ToString();
-                    }
-                    else
-                    {
-                        Console.WriteLine("Drawing card for dealer because they need the card that has not been revealed." + "\n");
-                        DrawCard(dealerHand, views[Constants.DEALER], false);
-                        totals[Constants.DEALER].Text = dealerHand.HandValue.ToString();
-                    }
+                    DrawCard(playerHand, views[Constants.PLAYER], false);
+                    totals[Constants.PLAYER].Text = playerHand.HandValue.ToString();
                 }
+                else
+                {
+                    DrawCard(dealerHand, views[Constants.DEALER], false);
+                    totals[Constants.DEALER].Text = dealerHand.HandValue.ToString();
+                }
+            }
 
-
-                if (dealerHand.HandValue == 21 || playerHand.HandValue == 21)
+            if (dealerHand.HandValue == 21 || playerHand.HandValue == 21)
                 {
 
                     if (dealerHand.HandValue == 21 && playerHand.HandValue == 21)
@@ -304,7 +299,7 @@ namespace BlackJack
                 else
                     img.Source = hand.Cards.Last.Value.ImageSource;
 
-                img.HeightRequest = 190;
+                img.HeightRequest = 150;
                 img.Margin = new Thickness(5);
                 panel.Children.Add(img);
             }
@@ -363,7 +358,7 @@ namespace BlackJack
 
                 Image img = new Image();
                 img.Source = dealerHand.Cards.Last.Value.ImageSource;
-                img.HeightRequest = 190;
+                img.HeightRequest = 150;
                 img.Margin = new Thickness(5);
                 dealerPanel.Children.Add(img);
 
