@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Diagnostics;
 
 
 namespace BlackJack
@@ -235,7 +236,7 @@ namespace BlackJack
             }
 
             
-            for (int i = 0; i <= Constants.STARTING_CARDS -1; i++)
+            for (int i = 0; i <= Constants.STARTING_CARDS - 1; i++)
             {
                // await Task.Delay(Constants.DRAW_DELAY);
 
@@ -245,7 +246,7 @@ namespace BlackJack
                 if (i == Constants.STARTING_CARDS - 1)
                 {
                     DrawCard(dealerHand, views[Constants.DEALER], true);
-                    ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
+                    System.Diagnostics.Debug.WriteLine("card drawn dealer facing down");
                     continue;
                 }
 
@@ -253,12 +254,13 @@ namespace BlackJack
                 if (i % 2 == 0)
                 {
                     DrawCard(playerHand, views[Constants.PLAYER], false);
-                    ShowCard(views[Constants.PLAYER], totals[Constants.PLAYER]);
+                    System.Diagnostics.Debug.WriteLine("card drawn for player");
                     totals[Constants.PLAYER].Text = playerHand.HandValue.ToString();
                 }
                 else
                 {
                     DrawCard(dealerHand, views[Constants.DEALER], false);
+                    System.Diagnostics.Debug.WriteLine("card drawn for dealer");
                     totals[Constants.DEALER].Text = dealerHand.HandValue.ToString();
                 }
             }

@@ -34,6 +34,7 @@ namespace BlackJack
 
         private async void PlayButton_Clicked(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine("play button clicked");
             PlayButton.IsEnabled = false;
             PlayerView.IsVisible = true;
             DealerView.IsVisible = true;
