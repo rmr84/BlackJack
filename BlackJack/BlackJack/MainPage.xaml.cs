@@ -11,7 +11,9 @@ namespace BlackJack
 {
     public partial class MainPage : ContentPage
     {
+
         private Manager manager = Manager.GetInstance();
+        private int index;
         public static readonly HttpClient client = new HttpClient();
         CardModel c = new CardModel();
         
@@ -61,6 +63,7 @@ namespace BlackJack
             } else
             {
                 return b.ToString();
+                
             }
         }
 

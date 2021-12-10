@@ -9,13 +9,24 @@ namespace BlackJack
     {
         public static readonly Manager manager = new Manager();
         public List<CardModel> list = new List<CardModel>();
-        
+        CardModel c = new CardModel();
 
         private Manager() { }
 
         public static Manager GetInstance()
         {
             return manager;
+        }
+
+        public void Add(CardModel cardItem)
+        {
+            list.Add(cardItem);
+        }
+
+        public bool Remove(CardModel cardItem)
+        {
+            list.Remove(cardItem);
+            return true;
         }
 
         public List<CardModel> GetItems()

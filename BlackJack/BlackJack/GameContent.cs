@@ -12,9 +12,11 @@ using System.Diagnostics;
 
 namespace BlackJack
 {
+    
 
-    public static class Constants
+    public class Constants
     {
+        
 
         public static readonly int[] CARDS = { 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10 };
         public const int CARD_DECK = 52;
@@ -84,20 +86,33 @@ namespace BlackJack
             public int winOnStand = 0;
             public int loseOnStand = 0;
             public int winOnHit = 0;
-            public int loseOnHit = 0;
+            
             public int wins = 0;
             public int losses = 0;
             public int winonbj = 0;
             public int busts = 0;
             public int pushes = 0;
+        public int handsplayed = 0;
 
             private Random random = new Random();
+        private int index;
+        private Manager manager = Manager.GetInstance();
+        CardModel c = new CardModel();
 
 
             public Game()
             {
                 overallCardCount = Constants.CARD_DECK;
                 Setup();
+            c.wins = wins;
+            c.pushes = pushes;
+            c.losses = losses;
+            c.busts = busts;
+            c.winOnHit = winOnHit;
+            c.winOnStand = winOnStand;
+            c.loseOnStand = loseOnStand;
+            c.blackjacks = winonbj;
+            c.handsPlayed = handsplayed;
             }
 
 
@@ -160,9 +175,10 @@ namespace BlackJack
                         await Task.Delay(Constants.TIMEOUT_DELAY);
                         ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
                     await App.Current.MainPage.DisplayAlert("Push", "Hands are equal.", "OK");
+                   // GameOver(buttons);
+                    pushes++;
                     
-                        pushes++;
-                        
+                
                     }
 
                     else if (dealerHand.HandValue == 21 && playerHand.HandValue != 21)
@@ -172,8 +188,8 @@ namespace BlackJack
                     await App.Current.MainPage.DisplayAlert("Dealer Blackjack!", "You Lose!", "OK");
                     
                     losses++;
-                       
-                    }
+                    
+                }
 
                     else if (dealerHand.HandValue != 21 && playerHand.HandValue == 21)
                     {
@@ -181,10 +197,13 @@ namespace BlackJack
                     
                     ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
                     await App.Current.MainPage.DisplayAlert("Blackjack!", "You Win!", "OK");
+                   
                     wins++;
-                        winonbj++;
-                        
-                    }
+                    winonbj++;
+                    
+                   
+
+                }
 
                     PlayAgain(buttons);
                 }
@@ -219,38 +238,38 @@ namespace BlackJack
                 if (dealerHand.HandValue > 21)
                 {
                 await App.Current.MainPage.DisplayAlert("You Win!", "Dealer Busted!", "OK");
-                    
+               // GameOver(buttons);
                     winOnStand++;
                     wins++;
-                   
-                }
+               
+            }
 
                 else if (dealerHand.HandValue == playerHand.HandValue)
                 {
                 await App.Current.MainPage.DisplayAlert("Push", "Hands are equal.", "OK");
-                
+               // GameOver(buttons);
                     pushes++;
-                    
-                }
+               
+            }
 
                 else if (dealerHand.HandValue < playerHand.HandValue)
                 {
                 await App.Current.MainPage.DisplayAlert("You Win!", "Your hand is higher!", "OK");
-               
+                //GameOver(buttons);
                     wins++;
                     winOnStand++;
-                    
-                }
+               
+            }
 
                 else
                 {
                 await App.Current.MainPage.DisplayAlert("You Lose!", "Sorry!", "OK");
-                
+                //GameOver(buttons);
                 losses++;
                     loseOnStand++;
-                    
-                }
-
+                
+            }
+                
                 PlayAgain(buttons);
             }
 
@@ -268,12 +287,13 @@ namespace BlackJack
                 {
                 
                     busts++;
-                    loseOnHit++;
+                    
                     losses++;
-                    ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
+                
+                ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
                 await App.Current.MainPage.DisplayAlert("Bust", "You Lose!", "OK");
-                
-                
+                // GameOver(buttons);
+                manager.Add(c);
                 PlayAgain(buttons);
                 }
             }
@@ -389,6 +409,7 @@ namespace BlackJack
             {
                 buttons[Constants.PLAY_BUTTON].IsEnabled = true;
             }
+
 
             private void CreateDecks()
             {

@@ -13,6 +13,15 @@
                                         BackgroundColor="Red">
                 
             </Entry>
+            <Button x:Name="Reset" 
+                    Text="Reset Stats" 
+                        VerticalOptions="End" 
+                            FontAttributes="Bold" 
+                                FontSize="Large" TextColor="Red" 
+                                    Clicked="Reset_Clicked" 
+                                            IsVisible="False">
+                
+            </Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -16,52 +16,34 @@ namespace BlackJack
        
 
     {
+
         public static readonly HttpClient client = new HttpClient();
         private Manager manager = Manager.GetInstance();
         CardModel c = new CardModel();
 
-        // private int index;
+         private int index;
 
 
-        public StatPage(bool reset)
+        public StatPage(bool isUser)
         {
             InitializeComponent();
-
-            Reset.IsVisible = reset;
+            ListView.ItemsSource = manager.list;
+            
         }
-            
-            
-           // if (reset && index >= 0)
-           // {
-             //   var var1 = manager.GetObsList()[index];
-             //   WelcomeUser.Text = var1.userID;
 
-          //  }
-
-         //   if (!Reset.IsVisible)
-         //   {
-                //await Post(c)
-        //    }
-      //  }
-
-        private async void Reset_Clicked(object sender, EventArgs e)
+        protected override async void OnAppearing()
         {
-            IsBusy = true;
-            ActivityIndicator indicator = new ActivityIndicator();
-            indicator.IsRunning = true;
-            indicator.IsVisible = true;
-            //await Reset(c)
-
+            base.OnAppearing();
+            ListView.ItemsSource = manager.list;
+            //ListView.ItemsSource = manager.list;
         }
+            
+
+        
 
         private async void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            await Navigation.PushAsync(new EditUser());
-        }
-
-        private void Upload_Clicked(object sender, EventArgs e)
-        {
-
+            await Navigation.PushAsync(new EditUser(true, e.ItemIndex, true));
         }
 
         //get all

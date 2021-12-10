@@ -14,7 +14,7 @@ namespace BlackJack
     {
 
         private Game blackjackInstance; 
-        private StackLayout[] notifications;
+        
         private FlexLayout[] views;
         private Label[] totals;
         private Button[] buttons;
@@ -42,13 +42,10 @@ namespace BlackJack
             PlayerView.IsVisible = true;
             DealerView.IsVisible = true;
             
-
             await blackjackInstance.Play(views, totals, buttons);
             HitButton.IsEnabled = true;
             StandButton.IsEnabled = true;
             
-            
-
         }
      
         private async void HitButton_Clicked(object sender, EventArgs e)
@@ -59,9 +56,10 @@ namespace BlackJack
 
         private async void StandButton_Clicked(object sender, EventArgs e)
         {
-            await blackjackInstance.Stand(views, totals, buttons);
             HitButton.IsEnabled = false;
             StandButton.IsEnabled = false;
+            await blackjackInstance.Stand(views, totals, buttons);
+            
         }
 
      

@@ -298,4 +298,7 @@
   <ItemGroup>
     <BundleResource Include="Resources\card44.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\statpagescreen.jpg" />
+  </ItemGroup>
 </Project>
