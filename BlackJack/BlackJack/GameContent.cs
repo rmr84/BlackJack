@@ -266,7 +266,7 @@ namespace BlackJack
                 await App.Current.MainPage.DisplayAlert("You Lose!", "Sorry!", "OK");
                 //GameOver(buttons);
                 losses++;
-                    loseOnStand++;
+                loseOnStand++;
                 
             }
                 
@@ -291,8 +291,9 @@ namespace BlackJack
                     losses++;
                 
                 ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
+                
                 await App.Current.MainPage.DisplayAlert("Bust", "You Lose!", "OK");
-                // GameOver(buttons);
+                
                 manager.Add(c);
                 PlayAgain(buttons);
                 }
@@ -410,6 +411,9 @@ namespace BlackJack
                 buttons[Constants.PLAY_BUTTON].IsEnabled = true;
             }
 
+
+
+        
 
             private void CreateDecks()
             {

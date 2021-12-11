@@ -55,7 +55,7 @@ namespace BlackJack
             Indicator.IsEnabled = true;
             Indicator.IsRunning = true;
             Indicator.IsVisible = true;
-
+            //await Put(c)
 
         }
 
@@ -85,6 +85,39 @@ namespace BlackJack
 
 
     }
+
+   // public async Task Delete(CardModel cardItem)
+    //{
+      //  var var1 = manager.GetObsList()[index];
+
+       // var uri = new Uri("https://....");
+
+       // String json = JsonConvert.SerializeObject(var1);
+       // StringContent strContent = new StringContent(json, Encoding.UTF8, "application/json");
+
+      //  HttpRequestMessage request = new HttpRequestMessage();
+      //  request.Method = HttpMethod.Delete;
+      //  request.RequestUri = uri;
+     //   request.Content = strContent;
+
+
+      ///  HttpResponseMessage response = await client.SendAsync(request);
+
+      ///  if (response.IsSuccessStatusCode)
+      //  {
+      //     IsBusy = true;
+      //      Indicator.IsEnabled = true;
+       //     Indicator.IsRunning = true;
+       //     Indicator.IsVisible = true;
+       //     var content = await response.Content.ReadAsStringAsync();
+       //     int statuscode = JsonConvert.DeserializeObject<int>(content);
+
+
+        //    Console.WriteLine("Remove was a success");
+
+    ///    }
+
+  //  }
 
 
 

@@ -59,8 +59,9 @@ namespace BlackJack
             HitButton.IsEnabled = false;
             StandButton.IsEnabled = false;
             await blackjackInstance.Stand(views, totals, buttons);
-            
         }
+
+        
 
      
         }
