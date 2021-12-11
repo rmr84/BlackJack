@@ -185,6 +185,8 @@ namespace BlackJack
                     {
                         await Task.Delay(Constants.TIMEOUT_DELAY);
                         ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
+                        buttons[1].IsEnabled = false;
+                        buttons[2].IsEnabled = false;
                     await App.Current.MainPage.DisplayAlert("Dealer Blackjack!", "You Lose!", "OK");
                     
                     losses++;
@@ -196,6 +198,8 @@ namespace BlackJack
                     
                     
                     ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
+                    buttons[1].IsEnabled = false;
+                    buttons[2].IsEnabled = false; //<-------------- Still needs fixed
                     await App.Current.MainPage.DisplayAlert("Blackjack!", "You Win!", "OK");
                    
                     wins++;
@@ -291,6 +295,8 @@ namespace BlackJack
                     losses++;
                 
                 ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
+                buttons[1].IsEnabled = false;
+                buttons[2].IsEnabled = false;
                 await App.Current.MainPage.DisplayAlert("Bust", "You Lose!", "OK");
                 // GameOver(buttons);
                 manager.Add(c);
