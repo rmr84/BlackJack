@@ -7,6 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Diagnostics;
+using Newtonsoft.Json;
+using System.Net.Http;
 
 
 
@@ -16,7 +18,7 @@ namespace BlackJack
 
     public class Constants
     {
-        
+       
 
         public static readonly int[] CARDS = { 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10 };
         public const int CARD_DECK = 52;
@@ -39,6 +41,7 @@ namespace BlackJack
     }
     public partial class Card
     {
+        
         private int cardVal;
         private string imageSource;
 
@@ -75,57 +78,52 @@ namespace BlackJack
             
         }
 
-        public partial class Game
+    public partial class Game { 
 
-        {
-            private int overallCardCount;
-            private Deck playDeck;
-            private Deck usedDeck;
-            private Hand dealerHand;
-            private Hand playerHand;
-            public int winOnStand = 0;
-            public int loseOnStand = 0;
-            public int winOnHit = 0;
-            
-            public int wins = 0;
-            public int losses = 0;
-            public int winonbj = 0;
-            public int busts = 0;
-            public int pushes = 0;
+    
+
+        private int overallCardCount;
+        private Deck playDeck;
+        private Deck usedDeck;
+        private Hand dealerHand;
+        private Hand playerHand;
+
+
+        public int wins = 0;
+        public int losses = 0;
+
+        public int busts = 0;
+        public int pushes = 0;
         public int handsplayed = 0;
 
-            private Random random = new Random();
-        private int index;
+        private Random random = new Random();
+
         private Manager manager = Manager.GetInstance();
+
         CardModel c = new CardModel();
+        
 
-
-            public Game()
-            {
-                overallCardCount = Constants.CARD_DECK;
-                Setup();
-            c.wins = wins;
-            c.pushes = pushes;
-            c.losses = losses;
-            c.busts = busts;
-            c.winOnHit = winOnHit;
-            c.winOnStand = winOnStand;
-            c.loseOnStand = loseOnStand;
-            c.blackjacks = winonbj;
-            c.handsPlayed = handsplayed;
-            }
-
-
-            private void Setup()
-            {
-                CreateDecks();
-
-                dealerHand = new Hand();
-                playerHand = new Hand();
-            }
-
-        public async Task Play(FlexLayout[] views, Label[] totals, Button[] buttons)
+        public Game()
         {
+            overallCardCount = Constants.CARD_DECK;
+            Setup();
+           
+            
+        }
+
+
+        private void Setup()
+        {
+            CreateDecks();
+
+            dealerHand = new Hand();
+            playerHand = new Hand();
+        }
+
+        public async Task Play(FlexLayout[] views, Label[] totals, Button[] buttons, String userId)
+        {
+
+            c.userID = userId;
             // Clean up last round.
             if (playerHand.Cards.Count > 0 || dealerHand.Cards.Count > 0)
             {
@@ -135,7 +133,7 @@ namespace BlackJack
                 views[Constants.DEALER].Children.Clear();
                 totals[Constants.DEALER].Text = "0";
                 totals[Constants.PLAYER].Text = "0";
-                
+
             }
 
             // Draw cards.
@@ -167,303 +165,324 @@ namespace BlackJack
             }
 
             if (dealerHand.HandValue == 21 || playerHand.HandValue == 21)
+            {
+
+                if (dealerHand.HandValue == 21 && playerHand.HandValue == 21)
+                {
+                    Console.WriteLine("this is a blackjack push" + "\n");
+                    await Task.Delay(Constants.TIMEOUT_DELAY);
+                    ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
+                    await App.Current.MainPage.DisplayAlert("Push", "Hands are equal.", "OK");
+
+                    c.pushes++;
+                    c.handsPlayed++;
+                    manager.GetObsList();
+                    Console.WriteLine(c);
+                    await MainPage.Put(c);
+
+
+                }
+
+                else if (dealerHand.HandValue == 21 && playerHand.HandValue != 21)
+                {
+                    await Task.Delay(Constants.TIMEOUT_DELAY);
+                    ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
+                    buttons[1].IsEnabled = false;
+                    buttons[2].IsEnabled = false;
+                    await App.Current.MainPage.DisplayAlert("Dealer Blackjack!", "You Lose!", "OK");
+
+                    c.losses++;
+                    c.handsPlayed++;
+                    manager.GetObsList();
+                    Console.WriteLine(c);
+                    await MainPage.Put(c);
+
+
+                }
+
+                else if (dealerHand.HandValue != 21 && playerHand.HandValue == 21)
                 {
 
-                    if (dealerHand.HandValue == 21 && playerHand.HandValue == 21)
-                    {
-                        Console.WriteLine("this is a blackjack push" + "\n");
-                        await Task.Delay(Constants.TIMEOUT_DELAY);
-                        ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
-                    await App.Current.MainPage.DisplayAlert("Push", "Hands are equal.", "OK");
-                   // GameOver(buttons);
-                    pushes++;
-                    manager.GetObsList();
-                    //put
 
-
-                }
-
-                    else if (dealerHand.HandValue == 21 && playerHand.HandValue != 21)
-                    {
-                        await Task.Delay(Constants.TIMEOUT_DELAY);
-                        ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
-                        buttons[1].IsEnabled = false;
-                        buttons[2].IsEnabled = false;
-                    await App.Current.MainPage.DisplayAlert("Dealer Blackjack!", "You Lose!", "OK");
-                    
-                    losses++;
-                    manager.GetObsList();
-                    //put
-
-
-                }
-
-                    else if (dealerHand.HandValue != 21 && playerHand.HandValue == 21)
-                    {
-                    
-                    
                     ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
                     buttons[1].IsEnabled = false;
                     buttons[2].IsEnabled = false; //<-------------- Still needs fixed
                     await App.Current.MainPage.DisplayAlert("Blackjack!", "You Win!", "OK");
-                   
-                    wins++;
-                    winonbj++;
+
+                    c.wins++;
+                    c.handsPlayed++;
+
                     manager.GetObsList();
-                    //put
+                    Console.WriteLine(c);
+                    await MainPage.Put(c);
 
 
 
                 }
 
-                    PlayAgain(buttons);
-                }
-
-                
-            }
-
-
-            public async Task Stand(FlexLayout[] views, Label[] totals, Button[] buttons)
-            {
-                
-                await Task.Delay(Constants.TIMEOUT_DELAY);
-
-                ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
-
-
-                while (dealerHand.HandValue < 17)
-                {
-                    await Task.Delay(Constants.DRAW_DELAY);
-
-                    if (playDeck.TotalCards == 0)
-                        RecombineDecks();
-
-
-                    DrawCard(dealerHand, views[Constants.DEALER], false);
-                    totals[Constants.DEALER].Text = dealerHand.HandValue.ToString();
-                }
-
-                await Task.Delay(Constants.TIMEOUT_DELAY);
-
-
-                if (dealerHand.HandValue > 21)
-                {
-                await App.Current.MainPage.DisplayAlert("You Win!", "Dealer Busted!", "OK");
-               // GameOver(buttons);
-                    winOnStand++;
-                    wins++;
-                manager.GetObsList();
-                //put
-
-            }
-
-                else if (dealerHand.HandValue == playerHand.HandValue)
-                {
-                await App.Current.MainPage.DisplayAlert("Push", "Hands are equal.", "OK");
-               // GameOver(buttons);
-                    pushes++;
-                manager.GetObsList();
-                //put
-
-            }
-
-                else if (dealerHand.HandValue < playerHand.HandValue)
-                {
-                await App.Current.MainPage.DisplayAlert("You Win!", "Your hand is higher!", "OK");
-                //GameOver(buttons);
-                    wins++;
-                    winOnStand++;
-                manager.GetObsList();
-                //put
-            }
-
-                else
-                {
-                await App.Current.MainPage.DisplayAlert("You Lose!", "Sorry!", "OK");
-                //GameOver(buttons);
-                losses++;
-                loseOnStand++;
-                manager.GetObsList();
-                //put
-            }
-                
                 PlayAgain(buttons);
             }
 
 
-            public async Task Hit(FlexLayout[] views, Label[] totals, Button[] buttons)
+        }
+
+
+        public async Task Stand(FlexLayout[] views, Label[] totals, Button[] buttons)
+        {
+
+            await Task.Delay(Constants.TIMEOUT_DELAY);
+
+            ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
+
+
+            while (dealerHand.HandValue < 17)
             {
+                await Task.Delay(Constants.DRAW_DELAY);
+
                 if (playDeck.TotalCards == 0)
                     RecombineDecks();
 
 
-                DrawCard(playerHand, views[Constants.PLAYER], false);
-                totals[Constants.PLAYER].Text = playerHand.HandValue.ToString();
+                DrawCard(dealerHand, views[Constants.DEALER], false);
+                totals[Constants.DEALER].Text = dealerHand.HandValue.ToString();
+            }
 
-                if (playerHand.HandValue > 21)
-                {
-                
-                    busts++;
-                    
-                    losses++;
+            await Task.Delay(Constants.TIMEOUT_DELAY);
+
+
+            if (dealerHand.HandValue > 21)
+            {
+                await App.Current.MainPage.DisplayAlert("You Win!", "Dealer Busted!", "OK");
+
+
+                c.wins++;
+                c.handsPlayed++;
                 manager.GetObsList();
-                //put
+                Console.WriteLine(c);
+                await MainPage.Put(c);
+
+            }
+
+            else if (dealerHand.HandValue == playerHand.HandValue)
+            {
+                await App.Current.MainPage.DisplayAlert("Push", "Hands are equal.", "OK");
+
+                c.pushes++;
+                c.handsPlayed++;
+                manager.GetObsList();
+                Console.WriteLine(c);
+                await MainPage.Put(c);
+
+            }
+
+            else if (dealerHand.HandValue < playerHand.HandValue)
+            {
+                await App.Current.MainPage.DisplayAlert("You Win!", "Your hand is higher!", "OK");
+
+                c.wins++;
+                c.handsPlayed++;
+
+                manager.GetObsList();
+
+                Console.WriteLine(c);
+                await MainPage.Put(c);
+            }
+
+            else
+            {
+                await App.Current.MainPage.DisplayAlert("You Lose!", "Sorry!", "OK");
+                //GameOver(buttons);
+                c.losses++;
+                c.handsPlayed++;
+
+                manager.GetObsList();
+                Console.WriteLine(c);
+                await MainPage.Put(c);
+            }
+
+            PlayAgain(buttons);
+        }
+
+
+        public async Task Hit(FlexLayout[] views, Label[] totals, Button[] buttons)
+        {
+            if (playDeck.TotalCards == 0)
+                RecombineDecks();
+
+
+            DrawCard(playerHand, views[Constants.PLAYER], false);
+            totals[Constants.PLAYER].Text = playerHand.HandValue.ToString();
+
+            if (playerHand.HandValue > 21)
+            {
+
+                c.busts++;
+
+                c.losses++;
+                c.handsPlayed++;
+                manager.GetObsList();
+                Console.WriteLine(c);
+                await MainPage.Put(c);
                 ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
                 buttons[1].IsEnabled = false;
                 buttons[2].IsEnabled = false;
                 await App.Current.MainPage.DisplayAlert("Bust", "You Lose!", "OK");
-                
-                manager.Add(c);
+
+
                 PlayAgain(buttons);
-                }
             }
+        }
 
 
-            private void DrawCard(Hand hand, FlexLayout panel, Boolean hideCard)
+        private void DrawCard(Hand hand, FlexLayout panel, Boolean hideCard)
+        {
+
+            hand.Cards.AddLast(playDeck.Cards[playDeck.TotalCards - 1]);
+            playDeck.Cards[playDeck.TotalCards - 1] = null;
+            playDeck.TotalCards--;
+            CalcHandVal(hand);
+
+            Image img = new Image();
+
+            if (hideCard)
+                img.Source = "BackSide.jpg";
+            else
+                img.Source = hand.Cards.Last.Value.ImageSource;
+
+            img.HeightRequest = 150;
+
+            img.Margin = new Thickness(5);
+            panel.Children.Add(img);
+        }
+
+        private void CalcHandVal(Hand hand)
+        {
+            int numOfAces = 0;
+            int value = 0;
+
+            foreach (Card card in hand.Cards)
             {
-
-                hand.Cards.AddLast(playDeck.Cards[playDeck.TotalCards - 1]);
-                playDeck.Cards[playDeck.TotalCards - 1] = null;
-                playDeck.TotalCards--;
-                CalcHandVal(hand);
-
-                Image img = new Image();
-
-                if (hideCard)
-                    img.Source = "BackSide.jpg";
+                if (card.CardVal == 11)
+                {
+                    numOfAces++;
+                    value += card.CardVal;
+                }
                 else
-                    img.Source = hand.Cards.Last.Value.ImageSource;
-
-                img.HeightRequest = 150;
-                
-                img.Margin = new Thickness(5);
-                panel.Children.Add(img);
-            }
-
-            private void CalcHandVal(Hand hand)
-            {
-                int numOfAces = 0;
-                int value = 0;
-
-                foreach (Card card in hand.Cards)
                 {
-                    if (card.CardVal == 11)
-                    {
-                        numOfAces++;
-                        value += card.CardVal;
-                    }
-                    else
-                    {
-                        value += card.CardVal;
-                    }
-                    if (value > 21 && numOfAces > 0)
-                    {
-                        numOfAces--;
-                        value -= 10;
-                    }
+                    value += card.CardVal;
                 }
-                hand.HandValue = value;
-            }
-
-
-
-
-            private void DiscardHands()
-            {
-
-                while (playerHand.Cards.Count > 0)
+                if (value > 21 && numOfAces > 0)
                 {
-                    
-                
-                    usedDeck.Cards[usedDeck.TotalCards] = playerHand.Cards.Last.Value;
-                    usedDeck.TotalCards++;
-                    
-                
-                }
-
-
-                while (dealerHand.Cards.Count > 0)
-                {
-                    
-                    usedDeck.Cards[usedDeck.TotalCards] = dealerHand.Cards.Last.Value;
-                    usedDeck.TotalCards++;
-                    dealerHand.Cards.RemoveLast();
-                   
+                    numOfAces--;
+                    value -= 10;
                 }
             }
+            hand.HandValue = value;
+        }
 
 
-            private void ShowCard(FlexLayout dealerPanel, Label dealerTotal)
+
+
+        private void DiscardHands()
+        {
+
+            while (playerHand.Cards.Count > 0)
             {
 
-                dealerPanel.Children.RemoveAt(dealerPanel.Children.Count - 1);
 
-                Image img = new Image();
-                img.Source = dealerHand.Cards.Last.Value.ImageSource;
-                img.HeightRequest = 150;
-                
-                img.Margin = new Thickness(5);
-                dealerPanel.Children.Add(img);
+                usedDeck.Cards[usedDeck.TotalCards] = playerHand.Cards.Last.Value;
+                usedDeck.TotalCards++;
 
 
-                dealerTotal.Text = dealerHand.HandValue.ToString();
             }
 
 
-
-            private void RecombineDecks()
+            while (dealerHand.Cards.Count > 0)
             {
-                while (usedDeck.TotalCards > 0)
-                {
-                    playDeck.Cards[playDeck.TotalCards] = usedDeck.Cards[usedDeck.TotalCards - 1];
-                    usedDeck.Cards[usedDeck.TotalCards - 1] = null;
-                    usedDeck.TotalCards--;
-                    playDeck.TotalCards++;
-                }
 
-                ShuffleDeck(playDeck);
+                usedDeck.Cards[usedDeck.TotalCards] = dealerHand.Cards.Last.Value;
+                usedDeck.TotalCards++;
+                dealerHand.Cards.RemoveLast();
+
+            }
+        }
+
+
+        private void ShowCard(FlexLayout dealerPanel, Label dealerTotal)
+        {
+
+            dealerPanel.Children.RemoveAt(dealerPanel.Children.Count - 1);
+
+            Image img = new Image();
+            img.Source = dealerHand.Cards.Last.Value.ImageSource;
+            img.HeightRequest = 150;
+
+            img.Margin = new Thickness(5);
+            dealerPanel.Children.Add(img);
+
+
+            dealerTotal.Text = dealerHand.HandValue.ToString();
+        }
+
+
+
+        private void RecombineDecks()
+        {
+            while (usedDeck.TotalCards > 0)
+            {
+                playDeck.Cards[playDeck.TotalCards] = usedDeck.Cards[usedDeck.TotalCards - 1];
+                usedDeck.Cards[usedDeck.TotalCards - 1] = null;
+                usedDeck.TotalCards--;
+                playDeck.TotalCards++;
             }
 
+            ShuffleDeck(playDeck);
+        }
 
-            private void PlayAgain(Button[] buttons)
+
+        private void PlayAgain(Button[] buttons)
+        {
+            buttons[Constants.PLAY_BUTTON].IsEnabled = true;
+        }
+
+
+
+
+
+        private void CreateDecks()
+        {
+
+            playDeck = new Deck(overallCardCount);
+            for (int i = 0; i < overallCardCount; i++)
             {
-                buttons[Constants.PLAY_BUTTON].IsEnabled = true;
+                playDeck.Cards[i] = new Card();
+                playDeck.Cards[i].CardVal = Constants.CARDS[i % 13];
+                playDeck.Cards[i].ImageSource = "card" + ((i % 52) + 1) + ".png";
             }
 
+            usedDeck = new Deck(0);
 
+            ShuffleDeck(playDeck);
+        }
+
+        private void ShuffleDeck(Deck deck)
+        {
+            Card[] cards = deck.Cards;
+            int n = deck.Cards.Length;
+
+            for (int i = 0; i < (n - 1); i++)
+            {
+                int r = i + random.Next(n - i);
+                Card temp = cards[r];
+                cards[r] = cards[i];
+                cards[i] = temp;
+            }
+        }
+    }
 
         
 
-            private void CreateDecks()
-            {
 
-                playDeck = new Deck(overallCardCount);
-                for (int i = 0; i < overallCardCount; i++)
-                {
-                    playDeck.Cards[i] = new Card();
-                    playDeck.Cards[i].CardVal = Constants.CARDS[i % 13];
-                    playDeck.Cards[i].ImageSource = "card" + ((i % 52) + 1) + ".png";
-                }
-
-                usedDeck = new Deck(0);
-
-                ShuffleDeck(playDeck);
-            }
-
-            private void ShuffleDeck(Deck deck)
-            {
-                Card[] cards = deck.Cards;
-                int n = deck.Cards.Length;
-
-                for (int i = 0; i < (n - 1); i++)
-                {
-                    int r = i + random.Next(n - i);
-                    Card temp = cards[r];
-                    cards[r] = cards[i];
-                    cards[i] = temp;
-                }
-            }
-        }
 }
 
 

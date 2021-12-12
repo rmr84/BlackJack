@@ -43,7 +43,7 @@ namespace BlackJack
 
         private async void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            await Navigation.PushAsync(new EditUser(true, e.ItemIndex, true));
+           // await Navigation.PushAsync(new EditUser(true, e.ItemIndex, true));
         }
 
         //get all

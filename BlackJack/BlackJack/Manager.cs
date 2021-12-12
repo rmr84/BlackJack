@@ -7,7 +7,7 @@ namespace BlackJack
 {
     class Manager
     {
-        public static readonly Manager manager = new Manager();
+        public static Manager manager = null;
         public List<CardModel> list = new List<CardModel>();
         CardModel c = new CardModel();
 
@@ -15,6 +15,10 @@ namespace BlackJack
 
         public static Manager GetInstance()
         {
+            if (manager == null)
+            {
+                manager = new Manager();
+            }
             return manager;
         }
 

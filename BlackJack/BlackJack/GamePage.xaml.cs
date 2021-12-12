@@ -13,20 +13,21 @@ namespace BlackJack
     public partial class GamePage : ContentPage
     {
 
-        private Game blackjackInstance; 
-        
+        private Game blackjackInstance;
+        private string userID;
         private FlexLayout[] views;
         private Label[] totals;
         private Button[] buttons;
         
 
-        public GamePage()
+        public GamePage(String userID)
         {
             
             InitializeComponent();
             buttons = new Button[] { PlayButton, HitButton, StandButton };
             totals = new Label[] { DealerTotal, PlayerTotal };
             views = new FlexLayout[] { DealerView, PlayerView };
+            this.userID = userID;
             
            
         }
@@ -42,7 +43,7 @@ namespace BlackJack
             PlayerView.IsVisible = true;
             DealerView.IsVisible = true;
             
-            await blackjackInstance.Play(views, totals, buttons);
+            await blackjackInstance.Play(views, totals, buttons, userID);
             HitButton.IsEnabled = true;
             StandButton.IsEnabled = true;
             

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Essentials;
+using Newtonsoft.Json;
 
 namespace BlackJack
 {
@@ -13,28 +14,38 @@ namespace BlackJack
     {
 
         private Manager manager = Manager.GetInstance();
-        private int index;
-        public static readonly HttpClient client = new HttpClient();
-        CardModel c = new CardModel();
         
+        public static readonly HttpClient client = new HttpClient();
+        CardModel card = new CardModel();
+
         public MainPage()
         {
             InitializeComponent();
 
         }
 
-            private async void NewGame_Clicked(object sender, EventArgs e)
-            {
+        private async void NewGame_Clicked(object sender, EventArgs e)
+        {
             var check = CheckInput();
             if (!String.IsNullOrEmpty(check))
             {
                 await DisplayAlert("Error", check, "Try again");
                 return;
+                
             }
-                //await Post(c)
-                await Navigation.PushAsync(new GamePage());
+            var i = await Post(card);
+            if (i == null)
+            {
+                i = card;
             }
+            manager.Add(card);
             
+            Console.WriteLine(card);
+            
+
+            await Navigation.PushAsync(new GamePage(card.userID));
+        }
+
         private async void ViewStats_Clicked(object sender, EventArgs e)
         {
             var check = CheckInput();
@@ -45,7 +56,7 @@ namespace BlackJack
             }
 
             await Navigation.PushAsync(new StatPage(true));
-              
+
         }
 
         private async void Tutorial_Clicked(object sender, EventArgs e)
@@ -60,10 +71,11 @@ namespace BlackJack
             {
                 return "Please enter a userID first!";
 
-            } else
+            }
+            else
             {
                 return b.ToString();
-                
+
             }
         }
 
@@ -73,18 +85,58 @@ namespace BlackJack
         }
 
         // post 
-        //public async Task Post(CardModel userId)
-        // {
-        // userId.userId = userId.Text;
-        // var uri = new uri("https://....);
-        // String json = JsonConvert.SerializeObject(userId);
-        // StringContent strContent = new StringContent(json, Encoding.UTF8, "application/jsond");
-        // HttpResponseMessage response = new HttpResponseMessage();
-        // response = await client.PostAsync(uri, strContent);
+        public async Task<CardModel> Post(CardModel userId)
+        {
 
-        //if (response.isSuccessStatusCode)
-        //{
-        //console.writeline("WORKED!!!!!!!!!!!!!!!!!);
-        //Console.writeline(c)
+            userId.userID = userID.Text;
+            var uri = new Uri("https://blackjackmobileapp.azurewebsites.net/User");
+            String json = JsonConvert.SerializeObject(userId);
+            StringContent strContent = new StringContent(json, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = await client.PostAsync(uri, strContent);
+            CardModel card = null;
+
+            if (response.IsSuccessStatusCode)
+            {
+                
+                var content = await response.Content.ReadAsStringAsync();
+                card = JsonConvert.DeserializeObject<CardModel>(content);
+                
+            }
+            return card;
+
+        }
+
+        public static async Task<CardModel> Put(CardModel item)
+        {
+
+            var var1 = Manager.GetInstance().list.Find(x => x.userID == item.userID);
+
+
+
+            var uri = new Uri("https://blackjackmobileapp.azurewebsites.net/User/" + item.userID + "/");
+           
+
+            String json = JsonConvert.SerializeObject(var1);
+            StringContent strContent = new StringContent(json, Encoding.UTF8, "application/json");
+
+            HttpRequestMessage request = new HttpRequestMessage();
+            request.Method = HttpMethod.Put;
+            request.RequestUri = uri;
+            request.Content = strContent;
+
+            HttpResponseMessage response = await MainPage.client.SendAsync(request);
+            if (response.IsSuccessStatusCode)
+            {
+
+                var content = await response.Content.ReadAsStringAsync();
+                int statusCode = JsonConvert.DeserializeObject<int>(content);
+            }
+            return item;
+        }
+
+
+
     }
 }
+

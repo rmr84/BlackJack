@@ -8,12 +8,10 @@ namespace BlackJack
     {
         public string userID { get; set; }
         public int wins { get; set; }
-        public int winOnHit { get; set; }
-        public int winOnStand { get; set; }
-        public int loseOnStand { get; set; }
+        
         public int losses { get; set; }
         public int handsPlayed { get; set; }
-        public int blackjacks { get; set; }
+       
         public int busts { get; set; }
         public int pushes { get; set; }
 
@@ -21,7 +19,7 @@ namespace BlackJack
 
         public override string ToString()
         {
-            return $"userID: {userID} \n Wins: {wins}\n Losses: {losses}\n";
+            return $"userID: {userID} \n Wins: {wins}\n Losses: {losses}\n Hands Played: {handsPlayed}\n Busts: {busts}\n Pushes: {pushes}";
         }
 
 
