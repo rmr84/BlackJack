@@ -177,9 +177,11 @@ namespace BlackJack
                     await App.Current.MainPage.DisplayAlert("Push", "Hands are equal.", "OK");
                    // GameOver(buttons);
                     pushes++;
-                    
-                
-                    }
+                    manager.GetObsList();
+                    //put
+
+
+                }
 
                     else if (dealerHand.HandValue == 21 && playerHand.HandValue != 21)
                     {
@@ -190,7 +192,10 @@ namespace BlackJack
                     await App.Current.MainPage.DisplayAlert("Dealer Blackjack!", "You Lose!", "OK");
                     
                     losses++;
-                    
+                    manager.GetObsList();
+                    //put
+
+
                 }
 
                     else if (dealerHand.HandValue != 21 && playerHand.HandValue == 21)
@@ -204,8 +209,10 @@ namespace BlackJack
                    
                     wins++;
                     winonbj++;
-                    
-                   
+                    manager.GetObsList();
+                    //put
+
+
 
                 }
 
@@ -245,7 +252,9 @@ namespace BlackJack
                // GameOver(buttons);
                     winOnStand++;
                     wins++;
-               
+                manager.GetObsList();
+                //put
+
             }
 
                 else if (dealerHand.HandValue == playerHand.HandValue)
@@ -253,7 +262,9 @@ namespace BlackJack
                 await App.Current.MainPage.DisplayAlert("Push", "Hands are equal.", "OK");
                // GameOver(buttons);
                     pushes++;
-               
+                manager.GetObsList();
+                //put
+
             }
 
                 else if (dealerHand.HandValue < playerHand.HandValue)
@@ -262,7 +273,8 @@ namespace BlackJack
                 //GameOver(buttons);
                     wins++;
                     winOnStand++;
-               
+                manager.GetObsList();
+                //put
             }
 
                 else
@@ -271,7 +283,8 @@ namespace BlackJack
                 //GameOver(buttons);
                 losses++;
                 loseOnStand++;
-                
+                manager.GetObsList();
+                //put
             }
                 
                 PlayAgain(buttons);
@@ -293,7 +306,8 @@ namespace BlackJack
                     busts++;
                     
                     losses++;
-                
+                manager.GetObsList();
+                //put
                 ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
                 buttons[1].IsEnabled = false;
                 buttons[2].IsEnabled = false;

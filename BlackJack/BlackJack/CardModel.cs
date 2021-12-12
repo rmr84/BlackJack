@@ -21,7 +21,7 @@ namespace BlackJack
 
         public override string ToString()
         {
-            return $"userID: {userID} \n Wins: {wins}\n";
+            return $"userID: {userID} \n Wins: {wins}\n Losses: {losses}\n";
         }
 
 
