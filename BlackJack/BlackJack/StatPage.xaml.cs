@@ -16,70 +16,113 @@ namespace BlackJack
        
 
     {
-
+        private string userID;
         public static readonly HttpClient client = new HttpClient();
         private Manager manager = Manager.GetInstance();
-        CardModel c = new CardModel();
+        CardModel card = new CardModel();
 
-         private int index;
+        
 
 
-        public StatPage(bool isUser)
+        public StatPage(bool isUser, String c)
         {
+            card.userID = c;
             InitializeComponent();
-            ListView.ItemsSource = manager.list;
+            
             
         }
 
         protected override async void OnAppearing()
         {
-            base.OnAppearing();
-            ListView.ItemsSource = manager.list;
-            //ListView.ItemsSource = manager.list;
-        }
             
+            base.OnAppearing();
+            try
+            {
+                if (card.userID == null)
+                {
+                    
+                    IfEmpty.IsVisible = true;
+                    User.IsVisible = false;
+                    Wins.IsVisible = false;
+                    Losses.IsVisible = false;
+                    HandsPlayed.IsVisible = false;
+                    Busts.IsVisible = false;
+                    Pushes.IsVisible = false;
+                    DeleteUser.IsVisible = false;
 
-        
 
-        private async void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
+                }
+                else
+                {
+
+                    var output = await RefreshDataAsync(card);
+                    User.Text = "User: " + output.userID;
+                    Wins.Text = "Wins: " + output.wins;
+                    Losses.Text = "Losses: " + output.losses;
+                    HandsPlayed.Text = "Hands Played: " + output.handsPlayed;
+                    Busts.Text = "Busts: " + output.busts;
+                    Pushes.Text = "Pushes: " + output.pushes;
+                }
+            }
+            catch (Exception e)
+            {
+              
+                    IfEmpty.IsVisible = true;
+                    User.IsVisible = false;
+                    Wins.IsVisible = false;
+                    Losses.IsVisible = false;
+                    HandsPlayed.IsVisible = false;
+                    Busts.IsVisible = false;
+                    Pushes.IsVisible = false;
+                    DeleteUser.IsVisible = false;
+
+                    Console.WriteLine("this is the warner exception");
+            }
+            
+        }
+           
+        //get 
+
+         public static async Task<CardModel> RefreshDataAsync(CardModel c)
         {
-           // await Navigation.PushAsync(new EditUser(true, e.ItemIndex, true));
+         var uri = new Uri("https://blackjackmobileapp.azurewebsites.net/User/" + c.userID);
+         HttpResponseMessage response = await client.GetAsync(uri).ConfigureAwait(false);
+         CardModel Item = null;
+         if (response.IsSuccessStatusCode)
+         {
+         var content = await response.Content.ReadAsStringAsync();
+          Item = JsonConvert.DeserializeObject<CardModel>(content);
+        }
+        return Item;
         }
 
-        //get all
+        private async void DeleteUser_Clicked(object sender, EventArgs e)
+        {
+            await Delete(card);
 
-        // public async Task<List<APIModel>> RefreshDataAsync()
-        // {
-        // var uri = new Uri(https://.....);
-        // HttpResponseMessage response = await client.GetAsync(uri).ConfigureAwait(false);
-        //List<APiModel> Items = null;
-        // if (response.IsSuccessStatusCode)
-        // {
-        //var content = await response.Content.ReadAsStringAsync();
-        // Items = JsonConvert.DeserializeObject<List<APIModel>>(content);
-        //}
-        //return Items;
-        //}
+            await Navigation.PopAsync(true);
+        }
 
-        //public async Task Reset(CardModel user)
-        // {
-        // var var1 = manager.getObsList()[index];
-        //var uri = new Uri("https://.....);
-        // String json = JsonConvert.SerializeObject(var1);
-        //StringContent strContent = new StringContent(json, Endocing.UTF8, "application/json);
+        public async Task Delete(CardModel user)
+        {
 
-        //HttpRequestMessage request = new HttpRequestMessage();
-        //request.Method = HttpMethod.Delete;
-        //request.RequestUri = uri;
-        //request.Content = strContent;
+            var uri = new Uri("https://blackjackmobileapp.azurewebsites.net/User/" + user.userID);
+            String json = JsonConvert.SerializeObject(user);
+            StringContent strContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-        //HttpResponseMessage response = await client.SendAsync(request);
-        //if (response.IsSuccessStatusCode)
-        // {
-        // var content = await response.Content.ReadAsStringAsync();
-        // int statuscode = JsonConvert.DeserializeObject<int>(content);
+            HttpRequestMessage request = new HttpRequestMessage();
+            request.Method = HttpMethod.Delete;
+            request.RequestUri = uri;
+            request.Content = strContent;
+            CardModel card1 = null;
+            HttpResponseMessage response = await client.SendAsync(request);
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                card1 = JsonConvert.DeserializeObject<CardModel>(content);
 
-        // }
+            }
+        }
 
 
 

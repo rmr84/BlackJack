@@ -17,46 +17,81 @@ namespace BlackJack
         
         public static readonly HttpClient client = new HttpClient();
         CardModel card = new CardModel();
+        bool showtext;
+   
 
-        public MainPage()
+        public MainPage(bool onappear)
         {
             InitializeComponent();
+            showtext = onappear;
+           
+        }
 
+        protected override void OnAppearing()
+        {
+            if (showtext == true)
+            {
+                userID.Text = " ";
+            }
+            base.OnAppearing();
+            
         }
 
         private async void NewGame_Clicked(object sender, EventArgs e)
         {
+            ActivityIndicator i = new ActivityIndicator();
+
             var check = CheckInput();
             if (!String.IsNullOrEmpty(check))
             {
                 await DisplayAlert("Error", check, "Try again");
                 return;
-                
-            }
-            var i = await Post(card);
-            if (i == null)
-            {
-                i = card;
-            }
-            manager.Add(card);
-            
-            Console.WriteLine(card);
-            
 
+            }
+
+            var x = await StatPage.RefreshDataAsync(card);
+           if ((x != null) && (x.userID == card.userID)) {
+                card.userID = x.userID;
+            }
+    
+             else
+            {
+                var y = await Post(card);
+                card.userID = y.userID;
+            }
+
+            i.Color = Color.Red;
+            IsBusy = true;
+            i.IsEnabled = true;
+            i.IsRunning = true;
+            i.IsVisible = true;
+       
+            
             await Navigation.PushAsync(new GamePage(card.userID));
+            i.IsEnabled = false;
+            i.IsRunning = false;
+            i.IsVisible = false;
+            IsBusy = false;
         }
 
         private async void ViewStats_Clicked(object sender, EventArgs e)
         {
-            var check = CheckInput();
-            if (!String.IsNullOrEmpty(check))
+            try
             {
-                await DisplayAlert("Error", check, "Try again");
-                return;
+                var check = CheckInput();
+                if (!String.IsNullOrEmpty(check))
+                {
+                    await DisplayAlert("Error", check, "Try again");
+                    return;
+                }
+
+                await Navigation.PushAsync(new StatPage(true, card.userID));
+
             }
-
-            await Navigation.PushAsync(new StatPage(true));
-
+            catch (Exception ex)
+            {
+                Console.WriteLine("This is an alert that you are being alerted!");
+            }
         }
 
         private async void Tutorial_Clicked(object sender, EventArgs e)
@@ -110,14 +145,14 @@ namespace BlackJack
         public static async Task<CardModel> Put(CardModel item)
         {
 
-            var var1 = Manager.GetInstance().list.Find(x => x.userID == item.userID);
+            //var var1 = Manager.GetInstance().list.Find(x => x.userID == item.userID);
 
 
 
             var uri = new Uri("https://blackjackmobileapp.azurewebsites.net/User/" + item.userID + "/");
            
 
-            String json = JsonConvert.SerializeObject(var1);
+            String json = JsonConvert.SerializeObject(item);
             StringContent strContent = new StringContent(json, Encoding.UTF8, "application/json");
 
             HttpRequestMessage request = new HttpRequestMessage();
@@ -125,14 +160,24 @@ namespace BlackJack
             request.RequestUri = uri;
             request.Content = strContent;
 
-            HttpResponseMessage response = await MainPage.client.SendAsync(request);
-            if (response.IsSuccessStatusCode)
+            HttpResponseMessage response = await client.SendAsync(request);
+            CardModel card = null;
+            try
             {
-
-                var content = await response.Content.ReadAsStringAsync();
-                int statusCode = JsonConvert.DeserializeObject<int>(content);
+                if (response.IsSuccessStatusCode)
+                {
+                    
+                    var content = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine(content);
+                    card = JsonConvert.DeserializeObject<CardModel>(content);
+                    
+                }
+            }catch (Exception e)
+            {
+                Console.WriteLine(e);
             }
-            return item;
+            return card;
+            
         }
 
 

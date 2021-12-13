@@ -12,7 +12,7 @@ namespace BlackJack
     /// </summary>
     public partial class GamePage : ContentPage
     {
-
+        CardModel c = new CardModel();
         private Game blackjackInstance;
         private string userID;
         private FlexLayout[] views;
@@ -37,7 +37,7 @@ namespace BlackJack
             
             PlayerView.Children.Clear();
             DealerView.Children.Clear();
-            blackjackInstance = new Game();
+            blackjackInstance = new Game(c);
             System.Diagnostics.Debug.WriteLine("play button clicked");
             PlayButton.IsEnabled = false;
             PlayerView.IsVisible = true;

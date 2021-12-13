@@ -10,7 +10,7 @@ namespace BlackJack
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new MainPage());
+            MainPage = new NavigationPage(new MainPage(false));
         }
 
         protected override void OnStart()

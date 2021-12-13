@@ -5,16 +5,38 @@
              BackgroundImageSource="statpagescreen.jpg">
     
     <ContentPage.Content>
-        <StackLayout x:Name="forList" Orientation="Vertical" >
-            <ListView x:Name="ListView"
-                      
-                                HasUnevenRows="False"
-                                    ItemTapped="ListView_ItemTapped"
-                                        IsVisible="True">
-            </ListView>
+        <StackLayout x:Name="forStats" Orientation="Vertical" >
+            <Label x:Name="IfEmpty" Text="No stats to show! Play some games!" TextColor="White" FontSize="36" IsVisible="false">
+                
+            </Label>
+            <Label x:Name="User" Text="UserID: " TextColor="White" FontSize="36">
+                
+            </Label>
+            <Label x:Name="Wins" Text="Wins: " TextColor="White" FontSize="36">
+                
+            </Label>
 
+            <Label x:Name="Losses" Text="Losses: " TextColor="White" FontSize="36">
+
+            </Label>
+
+            <Label x:Name="HandsPlayed" Text="Hands Played: " TextColor="White" FontSize="36">
+
+            </Label>
+
+            <Label x:Name="Busts" Text="Busts: " TextColor="White" FontSize="36">
+
+            </Label>
+
+            <Label x:Name="Pushes" Text="Pushes: " TextColor="White" FontSize="36">
+
+            </Label>
+            <Button x:Name="DeleteUser" Text="Delete" Clicked="DeleteUser_Clicked" TextColor="White" BackgroundColor="Red" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                
+            </Button>
+                    
             
-                       
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

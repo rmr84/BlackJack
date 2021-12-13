@@ -103,11 +103,11 @@ namespace BlackJack
         CardModel c = new CardModel();
         
 
-        public Game()
+        public Game(CardModel card)
         {
             overallCardCount = Constants.CARD_DECK;
             Setup();
-           
+            this.c = card;
             
         }
 
@@ -137,7 +137,7 @@ namespace BlackJack
             }
 
             // Draw cards.
-            for (int i = 0; i < Constants.STARTING_CARDS; i++)
+            for (int i = 0; i < Constants.STARTING_CARDS; i+= 1)
             {
                 await Task.Delay(Constants.DRAW_DELAY);
 
@@ -174,11 +174,11 @@ namespace BlackJack
                     ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
                     await App.Current.MainPage.DisplayAlert("Push", "Hands are equal.", "OK");
 
-                    c.pushes++;
-                    c.handsPlayed++;
+                    c.pushes+= 1;
+                    c.handsPlayed+= 1;
                     manager.GetObsList();
                     Console.WriteLine(c);
-                    await MainPage.Put(c);
+                    c = await MainPage.Put(c);
 
 
                 }
@@ -189,13 +189,13 @@ namespace BlackJack
                     ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
                     buttons[1].IsEnabled = false;
                     buttons[2].IsEnabled = false;
-                    await App.Current.MainPage.DisplayAlert("Dealer Blackjack!", "You Lose!", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Dealer Blackjack!", "You Lose!", "OK");
 
-                    c.losses++;
-                    c.handsPlayed++;
+                    c.losses+= 1;
+                    c.handsPlayed+= 1;
                     manager.GetObsList();
                     Console.WriteLine(c);
-                    await MainPage.Put(c);
+                    c = await MainPage.Put(c);
 
 
                 }
@@ -209,12 +209,12 @@ namespace BlackJack
                     buttons[2].IsEnabled = false; //<-------------- Still needs fixed
                     await App.Current.MainPage.DisplayAlert("Blackjack!", "You Win!", "OK");
 
-                    c.wins++;
-                    c.handsPlayed++;
+                    c.wins+= 1;
+                    c.handsPlayed+= 1;
 
                     manager.GetObsList();
                     Console.WriteLine(c);
-                    await MainPage.Put(c);
+                    c = await MainPage.Put(c);
 
 
 
@@ -255,11 +255,11 @@ namespace BlackJack
                 await App.Current.MainPage.DisplayAlert("You Win!", "Dealer Busted!", "OK");
 
 
-                c.wins++;
-                c.handsPlayed++;
+                c.wins+= 1;
+                c.handsPlayed+= 1;
                 manager.GetObsList();
                 Console.WriteLine(c);
-                await MainPage.Put(c);
+                c = await MainPage.Put(c);
 
             }
 
@@ -267,11 +267,11 @@ namespace BlackJack
             {
                 await App.Current.MainPage.DisplayAlert("Push", "Hands are equal.", "OK");
 
-                c.pushes++;
-                c.handsPlayed++;
+                c.pushes+= 1;
+                c.handsPlayed+= 1;
                 manager.GetObsList();
                 Console.WriteLine(c);
-                await MainPage.Put(c);
+                c = await MainPage.Put(c);
 
             }
 
@@ -279,25 +279,25 @@ namespace BlackJack
             {
                 await App.Current.MainPage.DisplayAlert("You Win!", "Your hand is higher!", "OK");
 
-                c.wins++;
-                c.handsPlayed++;
+                c.wins+= 1;
+                c.handsPlayed+= 1;
 
                 manager.GetObsList();
 
                 Console.WriteLine(c);
-                await MainPage.Put(c);
+                c = await MainPage.Put(c);
             }
 
             else
             {
                 await App.Current.MainPage.DisplayAlert("You Lose!", "Sorry!", "OK");
                 //GameOver(buttons);
-                c.losses++;
-                c.handsPlayed++;
+                c.losses+= 1;
+                c.handsPlayed+= 1;
 
                 manager.GetObsList();
                 Console.WriteLine(c);
-                await MainPage.Put(c);
+               c = c = await MainPage.Put(c);
             }
 
             PlayAgain(buttons);
@@ -316,13 +316,13 @@ namespace BlackJack
             if (playerHand.HandValue > 21)
             {
 
-                c.busts++;
+                c.busts+= 1;
 
-                c.losses++;
-                c.handsPlayed++;
+                c.losses+= 1;
+                c.handsPlayed+= 1;
                 manager.GetObsList();
                 Console.WriteLine(c);
-                await MainPage.Put(c);
+                c = await MainPage.Put(c);
                 ShowCard(views[Constants.DEALER], totals[Constants.DEALER]);
                 buttons[1].IsEnabled = false;
                 buttons[2].IsEnabled = false;
@@ -364,7 +364,7 @@ namespace BlackJack
             {
                 if (card.CardVal == 11)
                 {
-                    numOfAces++;
+                    numOfAces+= 1;
                     value += card.CardVal;
                 }
                 else
@@ -391,7 +391,7 @@ namespace BlackJack
 
 
                 usedDeck.Cards[usedDeck.TotalCards] = playerHand.Cards.Last.Value;
-                usedDeck.TotalCards++;
+                usedDeck.TotalCards+= 1;
 
 
             }
@@ -401,7 +401,7 @@ namespace BlackJack
             {
 
                 usedDeck.Cards[usedDeck.TotalCards] = dealerHand.Cards.Last.Value;
-                usedDeck.TotalCards++;
+                usedDeck.TotalCards+= 1;
                 dealerHand.Cards.RemoveLast();
 
             }
@@ -433,7 +433,7 @@ namespace BlackJack
                 playDeck.Cards[playDeck.TotalCards] = usedDeck.Cards[usedDeck.TotalCards - 1];
                 usedDeck.Cards[usedDeck.TotalCards - 1] = null;
                 usedDeck.TotalCards--;
-                playDeck.TotalCards++;
+                playDeck.TotalCards+= 1;
             }
 
             ShuffleDeck(playDeck);
@@ -453,7 +453,7 @@ namespace BlackJack
         {
 
             playDeck = new Deck(overallCardCount);
-            for (int i = 0; i < overallCardCount; i++)
+            for (int i = 0; i < overallCardCount; i+= 1)
             {
                 playDeck.Cards[i] = new Card();
                 playDeck.Cards[i].CardVal = Constants.CARDS[i % 13];
@@ -470,7 +470,7 @@ namespace BlackJack
             Card[] cards = deck.Cards;
             int n = deck.Cards.Length;
 
-            for (int i = 0; i < (n - 1); i++)
+            for (int i = 0; i < (n - 1); i+= 1)
             {
                 int r = i + random.Next(n - i);
                 Card temp = cards[r];
